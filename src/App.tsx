@@ -4,6 +4,8 @@ import { FileViewer } from './components/FileViewer';
 import { Preloader } from './components/Preloader';
 import { FloatingAssistant } from './components/FloatingAssistant';
 import { EncouragementMessage } from './components/EncouragementMessage';
+import { PopupManager } from './components/PopupManager';
+import { usePopups } from './hooks/usePopups';
 import { FileIcon, ExternalLinkIcon } from 'lucide-react';
 
 export default function App() {
@@ -13,6 +15,7 @@ export default function App() {
   const [fileData, setFileData] = useState<any>(null);
   const [appointments, setAppointments] = useState<any[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const { popups, showSuccess, showError, showInfo, showWarning, removePopup } = usePopups();
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -50,6 +53,10 @@ export default function App() {
         setFileData(data);
         setAppointments(formattedAppointments);
         setError(null);
+        showSuccess(
+          'Import réussi',
+          `${formattedAppointments.length} rendez-vous ont été importés avec succès.`
+        );
       } else {
         throw new Error("Format de fichier invalide");
       }
@@ -60,11 +67,13 @@ export default function App() {
         clearInterval(progressInterval);
       }, 500);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Une erreur est survenue");
+      const message = err instanceof Error ? err.message : "Une erreur est survenue";
+      setError(message);
+      showError('Erreur d\'import', message);
       setImporting(false);
       setProgress(0);
     }
-  }, []);
+  }, [showSuccess, showError]);
 
   if (loading) {
     return <Preloader />;
@@ -72,6 +81,8 @@ export default function App() {
 
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-br from-slate-900 via-indigo-950 to-purple-950">
+      <PopupManager popups={popups} onClose={removePopup} />
+      
       <nav className="bg-slate-800/50 backdrop-blur-xl border-b border-white/5">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between">

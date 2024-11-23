@@ -1,13 +1,16 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { DatePicker } from './DatePicker';
 import { AppointmentCard } from './AppointmentCard';
+import { Pagination } from './Pagination';
 import { SheetAnalysis } from '../utils/excelAnalyzer';
 import { getTodayString, findClosestDate, parseAppointmentDate } from '../utils/dateUtils';
-import { Calendar, Users, AlertCircle, Search, Filter, SortAsc, MapPin } from 'lucide-react';
+import { Calendar, Users, AlertCircle, Search, Filter, SortAsc, MapPin, ListFilter } from 'lucide-react';
 
 interface AppointmentViewProps {
   data: SheetAnalysis;
 }
+
+const ITEMS_PER_PAGE = 10;
 
 export function AppointmentView({ data }: AppointmentViewProps) {
   const appointments = useMemo(() => {
@@ -31,14 +34,6 @@ export function AppointmentView({ data }: AppointmentViewProps) {
     return dates;
   }, [appointments]);
 
-  const uniqueTechs = useMemo(() => {
-    const techs = new Set(['all']);
-    appointments.forEach(apt => {
-      if (apt['TECHNICIEN']) techs.add(apt['TECHNICIEN']);
-    });
-    return techs;
-  }, [appointments]);
-
   const uniqueLocations = useMemo(() => {
     const locations = new Set(['all']);
     appointments.forEach(apt => {
@@ -49,17 +44,21 @@ export function AppointmentView({ data }: AppointmentViewProps) {
 
   const today = getTodayString();
   const [selectedDate, setSelectedDate] = useState(findClosestDate(Array.from(uniqueDates), today));
-  const [selectedTech, setSelectedTech] = useState('all');
   const [selectedStatus, setSelectedStatus] = useState('all');
   const [selectedLocation, setSelectedLocation] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [sortBy, setSortBy] = useState<'date' | 'tech' | 'location'>('date');
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
+  const [currentPage, setCurrentPage] = useState(1);
+
+  // Reset page when filters change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [selectedDate, selectedLocation, selectedStatus, searchQuery, sortBy, sortOrder]);
 
   const filteredAppointments = useMemo(() => {
     return appointments.filter(apt => {
       if (selectedDate !== 'all' && !apt['RDV']?.startsWith(selectedDate)) return false;
-      if (selectedTech !== 'all' && apt['TECHNICIEN'] !== selectedTech) return false;
       if (selectedLocation !== 'all' && apt['LOCALISATION'] !== selectedLocation) return false;
       if (selectedStatus === 'urgent' && !apt['JUSTIFICATION']?.toLowerCase().includes('urgent')) return false;
       if (selectedStatus === 'normal' && apt['JUSTIFICATION']?.toLowerCase().includes('urgent')) return false;
@@ -89,7 +88,11 @@ export function AppointmentView({ data }: AppointmentViewProps) {
       
       return sortOrder === 'asc' ? comparison : -comparison;
     });
-  }, [appointments, selectedDate, selectedTech, selectedLocation, selectedStatus, searchQuery, sortBy, sortOrder]);
+  }, [appointments, selectedDate, selectedLocation, selectedStatus, searchQuery, sortBy, sortOrder]);
+
+  const totalPages = Math.ceil(filteredAppointments.length / ITEMS_PER_PAGE);
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+  const paginatedAppointments = filteredAppointments.slice(startIndex, startIndex + ITEMS_PER_PAGE);
 
   return (
     <div className="space-y-6">
@@ -175,8 +178,8 @@ export function AppointmentView({ data }: AppointmentViewProps) {
       </div>
 
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
-        {filteredAppointments.length > 0 ? (
-          filteredAppointments.map((appointment, index) => (
+        {paginatedAppointments.length > 0 ? (
+          paginatedAppointments.map((appointment, index) => (
             <AppointmentCard
               key={`${appointment['ENTETE']}-${index}`}
               appointment={appointment}
@@ -199,12 +202,18 @@ export function AppointmentView({ data }: AppointmentViewProps) {
         )}
       </div>
 
+      {filteredAppointments.length > ITEMS_PER_PAGE && (
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={setCurrentPage}
+          itemsPerPage={ITEMS_PER_PAGE}
+          totalItems={filteredAppointments.length}
+        />
+      )}
+
       <div className="flex items-center justify-between text-sm text-slate-400 border-t border-white/5 pt-4">
         <div className="flex items-center space-x-4">
-          <div className="flex items-center space-x-2">
-            <Users className="h-4 w-4" />
-            <span>{uniqueTechs.size - 1} techniciens</span>
-          </div>
           <div className="flex items-center space-x-2">
             <Calendar className="h-4 w-4" />
             <span>{uniqueDates.size - 1} dates</span>
@@ -217,7 +226,7 @@ export function AppointmentView({ data }: AppointmentViewProps) {
           </div>
         </div>
         <div>
-          Total: {filteredAppointments.length} rendez-vous
+          Total : {filteredAppointments.length} rendez-vous
         </div>
       </div>
     </div>
