@@ -3,6 +3,7 @@ import { FileViewer } from './components/FileViewer';
 import { TechnicianSelector } from './components/TechnicianSelector';
 import { Preloader } from './components/Preloader';
 import { FloatingAssistant } from './components/FloatingAssistant';
+import { EncouragementMessage } from './components/EncouragementMessage';
 import { FileIcon, ExternalLinkIcon } from 'lucide-react';
 
 export default function App() {
@@ -87,6 +88,7 @@ export default function App() {
       </main>
 
       {appointments.length > 0 && <FloatingAssistant appointments={appointments} />}
+      <EncouragementMessage />
 
       <footer className="bg-slate-800/50 backdrop-blur-xl border-t border-white/5 py-4 mt-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

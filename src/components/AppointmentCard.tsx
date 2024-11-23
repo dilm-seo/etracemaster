@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Calendar, MapPin, User, Wrench, Clock, Truck, Phone, ChevronDown, ChevronUp, AlertCircle, ExternalLink, Ticket, Copy, Check } from 'lucide-react';
+import { Calendar, MapPin, User, Wrench, Clock, Truck, Phone, ChevronDown, ChevronUp, AlertCircle, ExternalLink, Ticket, Copy, Check, Barcode } from 'lucide-react';
 import { parseAppointmentTimes, formatDate, extractPhoneNumber } from '../utils/dateUtils';
 
 interface AppointmentCardProps {
@@ -15,6 +15,22 @@ export function AppointmentCard({ appointment, animate = false, delay = 0 }: App
   const phoneNumber = extractPhoneNumber(appointment['JUSTIFICATION']);
   const isUrgent = appointment['JUSTIFICATION']?.toLowerCase().includes('urgent');
   const ritm = appointment['RITM'] || appointment['ENTETE'] || 'N/A';
+
+  // Gestion des différentes possibilités de noms de colonnes pour les codes-barres
+  const oldBarcode = 
+    appointment['CODE BARRE ANCIEN'] || 
+    appointment['ANCIEN CODE BARRE'] || 
+    appointment['ANCIEN CODE-BARRE'] ||
+    appointment['CODE BARRE'] ||
+    appointment['CODE-BARRE'] ||
+    null;
+
+  const newBarcode = 
+    appointment['CODE BARRE NEW'] ||
+    appointment['NOUVEAU CODE BARRE'] || 
+    appointment['NOUVEAU CODE-BARRE'] ||
+    appointment['NOUVEAU CB'] ||
+    null;
 
   const handleCopyRitm = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -79,6 +95,25 @@ export function AppointmentCard({ appointment, animate = false, delay = 0 }: App
             )}
           </button>
         </div>
+
+        {(oldBarcode || newBarcode) && (
+          <div className="bg-slate-700/30 px-3 py-2 rounded-lg space-y-2">
+            {oldBarcode && (
+              <div className="flex items-center space-x-2">
+                <Barcode className="h-5 w-5 text-violet-400" />
+                <span className="text-slate-300 text-sm">Ancien code : </span>
+                <span className="text-white font-medium">{oldBarcode}</span>
+              </div>
+            )}
+            {newBarcode && (
+              <div className="flex items-center space-x-2">
+                <Barcode className="h-5 w-5 text-emerald-400" />
+                <span className="text-slate-300 text-sm">Nouveau code : </span>
+                <span className="text-white font-medium">{newBarcode}</span>
+              </div>
+            )}
+          </div>
+        )}
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div className="space-y-3">
