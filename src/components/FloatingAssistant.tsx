@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { Bot, X, Calendar, Clock, MapPin, Wrench, AlertCircle } from 'lucide-react';
+import { Bot, X, Calendar, Clock, MapPin, Wrench, AlertCircle, ChevronRight } from 'lucide-react';
 import { parseAppointmentDate, parseAppointmentTimes } from '../utils/dateUtils';
 
 interface FloatingAssistantProps {
@@ -9,9 +9,9 @@ interface FloatingAssistantProps {
 export function FloatingAssistant({ appointments }: FloatingAssistantProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [currentTime, setCurrentTime] = useState(new Date());
+  const [isHovered, setIsHovered] = useState(false);
 
   useEffect(() => {
-    // Mettre à jour l'heure toutes les minutes
     const timer = setInterval(() => {
       setCurrentTime(new Date());
     }, 60000);
@@ -22,26 +22,19 @@ export function FloatingAssistant({ appointments }: FloatingAssistantProps) {
   const nextAppointment = useMemo(() => {
     if (!appointments?.length) return null;
 
-    // Utiliser l'heure de Paris
     const parisTime = new Date(currentTime.toLocaleString('en-US', { timeZone: 'Europe/Paris' }));
     
     return appointments
       .filter(apt => {
         if (!apt.RDV) return false;
-        
-        // Créer une date complète avec l'heure du rendez-vous
         const [datePart] = apt.RDV.split(' ');
         const [day, month, year] = datePart.split('-').map(Number);
         const [startTime] = parseAppointmentTimes(apt.RDV);
         const [hours, minutes] = startTime.split(':').map(Number);
-        
         const appointmentDate = new Date(year, month - 1, day, hours, minutes);
-        
-        // Comparer avec l'heure actuelle de Paris
         return appointmentDate > parisTime;
       })
       .sort((a, b) => {
-        // Trier par date et heure
         const [datePartA] = a.RDV.split(' ');
         const [dayA, monthA, yearA] = datePartA.split('-').map(Number);
         const [startTimeA] = parseAppointmentTimes(a.RDV);
@@ -154,11 +147,21 @@ export function FloatingAssistant({ appointments }: FloatingAssistantProps) {
 
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className={`bg-violet-600 hover:bg-violet-500 text-white rounded-full p-4 shadow-lg transition-all duration-300 transform hover:scale-110 ${
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+        className={`relative bg-violet-600 hover:bg-violet-500 text-white rounded-full p-4 shadow-lg transition-all duration-300 transform hover:scale-110 ${
           isOpen ? 'rotate-180' : ''
         }`}
       >
         <Bot className="h-6 w-6" />
+        {!isOpen && isHovered && (
+          <div className="absolute right-full mr-2 top-1/2 -translate-y-1/2 whitespace-nowrap bg-slate-800 text-white px-3 py-1.5 rounded-lg text-sm animate-fade-in-up">
+            <div className="flex items-center space-x-1">
+              <span>Voir la prochaine intervention</span>
+              <ChevronRight className="h-4 w-4" />
+            </div>
+          </div>
+        )}
       </button>
     </div>
   );

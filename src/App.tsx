@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { FileViewer } from './components/FileViewer';
 import { TechnicianSelector } from './components/TechnicianSelector';
+import { FileViewer } from './components/FileViewer';
 import { Preloader } from './components/Preloader';
 import { FloatingAssistant } from './components/FloatingAssistant';
 import { EncouragementMessage } from './components/EncouragementMessage';
@@ -21,22 +21,50 @@ export default function App() {
     return () => clearTimeout(timer);
   }, []);
 
-  const handleFileData = (data: any) => {
-    setFileData(data);
-    if (data?.[0]?.data) {
-      const headers = data[0].data[0];
-      const rows = data[0].data.slice(1);
-      const formattedAppointments = rows.map((row: any[]) => {
-        const appointment: any = {};
-        headers.forEach((header: string, index: number) => {
-          appointment[header] = row[index];
+  const handleFileData = useCallback((data: any) => {
+    try {
+      setImporting(true);
+      setProgress(0);
+      
+      const progressInterval = setInterval(() => {
+        setProgress(prev => {
+          if (prev >= 90) {
+            clearInterval(progressInterval);
+            return prev;
+          }
+          return prev + 10;
         });
-        return appointment;
-      });
-      setAppointments(formattedAppointments);
-      setError(null);
+      }, 200);
+
+      if (data?.[0]?.data) {
+        const headers = data[0].data[0];
+        const rows = data[0].data.slice(1);
+        const formattedAppointments = rows.map((row: any[]) => {
+          const appointment: any = {};
+          headers.forEach((header: string, index: number) => {
+            appointment[header] = row[index];
+          });
+          return appointment;
+        });
+
+        setFileData(data);
+        setAppointments(formattedAppointments);
+        setError(null);
+      } else {
+        throw new Error("Format de fichier invalide");
+      }
+
+      setProgress(100);
+      setTimeout(() => {
+        setImporting(false);
+        clearInterval(progressInterval);
+      }, 500);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Une erreur est survenue");
+      setImporting(false);
+      setProgress(0);
     }
-  };
+  }, []);
 
   if (loading) {
     return <Preloader />;

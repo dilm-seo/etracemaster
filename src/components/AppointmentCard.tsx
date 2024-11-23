@@ -32,17 +32,20 @@ export function AppointmentCard({ appointment, animate = false, delay = 0 }: App
     appointment['NOUVEAU CB'] ||
     null;
 
-  const handleCopyRitm = (e: React.MouseEvent) => {
+  const handleCopyRitm = async (e: React.MouseEvent) => {
     e.preventDefault();
-    navigator.clipboard.writeText(`RITM-${ritm}`).then(() => {
+    try {
+      await navigator.clipboard.writeText(`RITM-${ritm}`);
       setIsCopied(true);
       setTimeout(() => setIsCopied(false), 2000);
-    });
+    } catch (err) {
+      console.error('Failed to copy:', err);
+    }
   };
 
   return (
     <div 
-      className={`bg-slate-800/50 backdrop-blur-xl rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 border border-white/5
+      className={`bg-slate-800/50 backdrop-blur-xl rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 border border-white/5 group
         ${animate ? 'opacity-0 translate-y-4 animate-fade-in-up' : ''}
         ${isUrgent ? 'ring-2 ring-rose-500' : ''}
       `}
@@ -183,7 +186,7 @@ export function AppointmentCard({ appointment, animate = false, delay = 0 }: App
           href={`https://etrace.cristalcloud.com/Pilotage-10/11-livraison.php?ritm=${ritm}`}
           target="_blank"
           rel="noopener noreferrer"
-          className="mt-4 flex items-center justify-center w-full px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg transition-colors duration-200 gap-2"
+          className="mt-4 flex items-center justify-center w-full px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg transition-colors duration-200 gap-2 group-hover:bg-emerald-500"
         >
           <ExternalLink className="h-4 w-4" />
           <span>Ouvrir dans eTRACE</span>
