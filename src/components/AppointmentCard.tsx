@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Calendar, MapPin, User, Wrench, Clock, Truck, Phone, ChevronDown, ChevronUp, AlertCircle, ExternalLink, Ticket, Copy, Check, Barcode } from 'lucide-react';
+import { Calendar, MapPin, User, Wrench, Clock, Truck, Phone, ChevronDown, ChevronUp, AlertCircle, ExternalLink, Ticket, Copy, Check, Barcode, Share2, Mail } from 'lucide-react';
 import { parseAppointmentTimes, formatDate, extractPhoneNumber } from '../utils/dateUtils';
 
 interface AppointmentCardProps {
@@ -11,12 +11,13 @@ interface AppointmentCardProps {
 export function AppointmentCard({ appointment, animate = false, delay = 0 }: AppointmentCardProps) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [isCopied, setIsCopied] = useState(false);
+  const [isSharing, setIsSharing] = useState(false);
+
   const [startTime, endTime] = parseAppointmentTimes(appointment['RDV'] || '');
   const phoneNumber = extractPhoneNumber(appointment['JUSTIFICATION']);
   const isUrgent = appointment['JUSTIFICATION']?.toLowerCase().includes('urgent');
   const ritm = appointment['RITM'] || appointment['ENTETE'] || 'N/A';
 
-  // Gestion des différentes possibilités de noms de colonnes pour les codes-barres
   const oldBarcode = 
     appointment['CODE BARRE ANCIEN'] || 
     appointment['ANCIEN CODE BARRE'] || 
@@ -41,6 +42,52 @@ export function AppointmentCard({ appointment, animate = false, delay = 0 }: App
     } catch (err) {
       console.error('Failed to copy:', err);
     }
+  };
+
+  const handleShare = async () => {
+    setIsSharing(true);
+    const appointmentDate = formatDate(appointment['RDV']?.split(' ')[0] || '');
+    const shareText = `
+Intervention RITM-${ritm}
+📅 ${appointmentDate}
+🕒 ${startTime} - ${endTime}
+📍 ${appointment['LOCALISATION']}
+🔧 ${appointment['ARTICLE']}
+${isUrgent ? '⚠️ URGENT' : ''}
+    `.trim();
+
+    try {
+      if (navigator.share) {
+        await navigator.share({
+          title: `Intervention RITM-${ritm}`,
+          text: shareText,
+        });
+      } else {
+        await navigator.clipboard.writeText(shareText);
+        alert('Détails copiés dans le presse-papiers !');
+      }
+    } catch (err) {
+      console.error('Erreur lors du partage:', err);
+    } finally {
+      setIsSharing(false);
+    }
+  };
+
+  const handleEmailShare = () => {
+    const subject = encodeURIComponent(`Intervention RITM-${ritm}`);
+    const body = encodeURIComponent(`
+Détails de l'intervention :
+
+RITM: ${ritm}
+Date: ${formatDate(appointment['RDV']?.split(' ')[0] || '')}
+Horaire: ${startTime} - ${endTime}
+Lieu: ${appointment['LOCALISATION']}
+Intervention: ${appointment['ARTICLE']}
+${isUrgent ? '\nINTERVENTION URGENTE' : ''}
+${oldBarcode ? `\nAncien code-barre: ${oldBarcode}` : ''}
+${newBarcode ? `\nNouveau code-barre: ${newBarcode}` : ''}
+    `);
+    window.open(`mailto:?subject=${subject}&body=${body}`);
   };
 
   return (
@@ -83,20 +130,37 @@ export function AppointmentCard({ appointment, animate = false, delay = 0 }: App
             <Ticket className="h-5 w-5 text-violet-400" />
             <span className="text-white font-medium">RITM-{ritm}</span>
           </div>
-          <button
-            onClick={handleCopyRitm}
-            className="flex items-center space-x-1 text-violet-400 hover:text-violet-300 transition-colors duration-200"
-            title="Copier le RITM"
-          >
-            {isCopied ? (
-              <>
-                <Check className="h-4 w-4" />
-                <span className="text-sm">Copié!</span>
-              </>
-            ) : (
-              <Copy className="h-4 w-4" />
-            )}
-          </button>
+          <div className="flex items-center space-x-2">
+            <button
+              onClick={handleCopyRitm}
+              className="flex items-center space-x-1 text-violet-400 hover:text-violet-300 transition-colors duration-200"
+              title="Copier le RITM"
+            >
+              {isCopied ? (
+                <>
+                  <Check className="h-4 w-4" />
+                  <span className="text-sm">Copié!</span>
+                </>
+              ) : (
+                <Copy className="h-4 w-4" />
+              )}
+            </button>
+            <button
+              onClick={handleShare}
+              className="text-violet-400 hover:text-violet-300 transition-colors duration-200"
+              title="Partager"
+              disabled={isSharing}
+            >
+              <Share2 className="h-4 w-4" />
+            </button>
+            <button
+              onClick={handleEmailShare}
+              className="text-violet-400 hover:text-violet-300 transition-colors duration-200"
+              title="Envoyer par email"
+            >
+              <Mail className="h-4 w-4" />
+            </button>
+          </div>
         </div>
 
         {(oldBarcode || newBarcode) && (

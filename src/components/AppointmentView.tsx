@@ -3,7 +3,7 @@ import { DatePicker } from './DatePicker';
 import { AppointmentCard } from './AppointmentCard';
 import { SheetAnalysis } from '../utils/excelAnalyzer';
 import { getTodayString, findClosestDate, parseAppointmentDate } from '../utils/dateUtils';
-import { Calendar, Users, AlertCircle } from 'lucide-react';
+import { Calendar, Users, AlertCircle, Search, Filter, SortAsc, MapPin } from 'lucide-react';
 
 interface AppointmentViewProps {
   data: SheetAnalysis;
@@ -39,34 +39,61 @@ export function AppointmentView({ data }: AppointmentViewProps) {
     return techs;
   }, [appointments]);
 
+  const uniqueLocations = useMemo(() => {
+    const locations = new Set(['all']);
+    appointments.forEach(apt => {
+      if (apt['LOCALISATION']) locations.add(apt['LOCALISATION']);
+    });
+    return locations;
+  }, [appointments]);
+
   const today = getTodayString();
   const [selectedDate, setSelectedDate] = useState(findClosestDate(Array.from(uniqueDates), today));
   const [selectedTech, setSelectedTech] = useState('all');
   const [selectedStatus, setSelectedStatus] = useState('all');
+  const [selectedLocation, setSelectedLocation] = useState('all');
+  const [searchQuery, setSearchQuery] = useState('');
   const [sortBy, setSortBy] = useState<'date' | 'tech' | 'location'>('date');
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
 
   const filteredAppointments = useMemo(() => {
     return appointments.filter(apt => {
       if (selectedDate !== 'all' && !apt['RDV']?.startsWith(selectedDate)) return false;
       if (selectedTech !== 'all' && apt['TECHNICIEN'] !== selectedTech) return false;
+      if (selectedLocation !== 'all' && apt['LOCALISATION'] !== selectedLocation) return false;
       if (selectedStatus === 'urgent' && !apt['JUSTIFICATION']?.toLowerCase().includes('urgent')) return false;
       if (selectedStatus === 'normal' && apt['JUSTIFICATION']?.toLowerCase().includes('urgent')) return false;
+      
+      if (searchQuery) {
+        const searchLower = searchQuery.toLowerCase();
+        return (
+          apt['RITM']?.toLowerCase().includes(searchLower) ||
+          apt['LOCALISATION']?.toLowerCase().includes(searchLower) ||
+          apt['ARTICLE']?.toLowerCase().includes(searchLower) ||
+          apt['JUSTIFICATION']?.toLowerCase().includes(searchLower)
+        );
+      }
+      
       return true;
     }).sort((a, b) => {
+      let comparison = 0;
+      
       if (sortBy === 'date') {
-        return parseAppointmentDate(a['RDV']?.split(' ')[0]).getTime() - 
-               parseAppointmentDate(b['RDV']?.split(' ')[0]).getTime();
+        comparison = parseAppointmentDate(a['RDV']?.split(' ')[0]).getTime() - 
+                    parseAppointmentDate(b['RDV']?.split(' ')[0]).getTime();
+      } else if (sortBy === 'tech') {
+        comparison = (a['TECHNICIEN'] || '').localeCompare(b['TECHNICIEN'] || '');
+      } else {
+        comparison = (a['LOCALISATION'] || '').localeCompare(b['LOCALISATION'] || '');
       }
-      if (sortBy === 'tech') {
-        return (a['TECHNICIEN'] || '').localeCompare(b['TECHNICIEN'] || '');
-      }
-      return (a['LOCALISATION'] || '').localeCompare(b['LOCALISATION'] || '');
+      
+      return sortOrder === 'asc' ? comparison : -comparison;
     });
-  }, [appointments, selectedDate, selectedTech, selectedStatus, sortBy]);
+  }, [appointments, selectedDate, selectedTech, selectedLocation, selectedStatus, searchQuery, sortBy, sortOrder]);
 
   return (
     <div className="space-y-6">
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
         <DatePicker
           selectedDate={selectedDate}
           onChange={(date) => {
@@ -80,36 +107,71 @@ export function AppointmentView({ data }: AppointmentViewProps) {
           availableDates={uniqueDates}
         />
 
-        <select
-          value={selectedTech}
-          onChange={(e) => setSelectedTech(e.target.value)}
-          className="bg-slate-900/50 border border-white/10 rounded-lg px-4 py-2 focus:ring-2 focus:ring-violet-500 focus:border-violet-500 text-white"
-        >
-          <option value="all">Tous les techniciens</option>
-          {Array.from(uniqueTechs).slice(1).map(tech => (
-            <option key={tech} value={tech}>{tech}</option>
-          ))}
-        </select>
+        <div className="relative">
+          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <Search className="h-5 w-5 text-violet-400" />
+          </div>
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="Rechercher..."
+            className="block w-full pl-10 pr-4 py-2 bg-slate-900/50 border border-white/10 rounded-lg text-white placeholder-slate-400 focus:ring-2 focus:ring-violet-500 focus:border-violet-500"
+          />
+        </div>
 
-        <select
-          value={selectedStatus}
-          onChange={(e) => setSelectedStatus(e.target.value)}
-          className="bg-slate-900/50 border border-white/10 rounded-lg px-4 py-2 focus:ring-2 focus:ring-violet-500 focus:border-violet-500 text-white"
-        >
-          <option value="all">Tous les statuts</option>
-          <option value="urgent">Urgents</option>
-          <option value="normal">Non urgents</option>
-        </select>
+        <div className="relative">
+          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <MapPin className="h-5 w-5 text-violet-400" />
+          </div>
+          <select
+            value={selectedLocation}
+            onChange={(e) => setSelectedLocation(e.target.value)}
+            className="block w-full pl-10 pr-10 py-2 bg-slate-900/50 border border-white/10 rounded-lg text-white focus:ring-2 focus:ring-violet-500 focus:border-violet-500 appearance-none cursor-pointer"
+          >
+            <option value="all">Toutes les localisations</option>
+            {Array.from(uniqueLocations).slice(1).map(location => (
+              <option key={location} value={location}>{location}</option>
+            ))}
+          </select>
+        </div>
 
-        <select
-          value={sortBy}
-          onChange={(e) => setSortBy(e.target.value as any)}
-          className="bg-slate-900/50 border border-white/10 rounded-lg px-4 py-2 focus:ring-2 focus:ring-violet-500 focus:border-violet-500 text-white"
-        >
-          <option value="date">Trier par date</option>
-          <option value="tech">Trier par technicien</option>
-          <option value="location">Trier par localisation</option>
-        </select>
+        <div className="relative">
+          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <Filter className="h-5 w-5 text-violet-400" />
+          </div>
+          <select
+            value={selectedStatus}
+            onChange={(e) => setSelectedStatus(e.target.value)}
+            className="block w-full pl-10 pr-10 py-2 bg-slate-900/50 border border-white/10 rounded-lg text-white focus:ring-2 focus:ring-violet-500 focus:border-violet-500 appearance-none cursor-pointer"
+          >
+            <option value="all">Tous les statuts</option>
+            <option value="urgent">Urgents</option>
+            <option value="normal">Non urgents</option>
+          </select>
+        </div>
+
+        <div className="relative">
+          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <SortAsc className="h-5 w-5 text-violet-400" />
+          </div>
+          <select
+            value={`${sortBy}-${sortOrder}`}
+            onChange={(e) => {
+              const [newSortBy, newSortOrder] = e.target.value.split('-') as [typeof sortBy, typeof sortOrder];
+              setSortBy(newSortBy);
+              setSortOrder(newSortOrder);
+            }}
+            className="block w-full pl-10 pr-10 py-2 bg-slate-900/50 border border-white/10 rounded-lg text-white focus:ring-2 focus:ring-violet-500 focus:border-violet-500 appearance-none cursor-pointer"
+          >
+            <option value="date-asc">Date (croissant)</option>
+            <option value="date-desc">Date (décroissant)</option>
+            <option value="tech-asc">Technicien (A-Z)</option>
+            <option value="tech-desc">Technicien (Z-A)</option>
+            <option value="location-asc">Localisation (A-Z)</option>
+            <option value="location-desc">Localisation (Z-A)</option>
+          </select>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
