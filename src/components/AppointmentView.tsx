@@ -10,7 +10,7 @@ interface AppointmentViewProps {
   data: SheetAnalysis;
 }
 
-const ITEMS_PER_PAGE = 10;
+const ITEMS_PER_PAGE_OPTIONS = [5, 10, 25, 50];
 
 export function AppointmentView({ data }: AppointmentViewProps) {
   const appointments = useMemo(() => {
@@ -44,17 +44,18 @@ export function AppointmentView({ data }: AppointmentViewProps) {
 
   const today = getTodayString();
   const [selectedDate, setSelectedDate] = useState(findClosestDate(Array.from(uniqueDates), today));
-  const [selectedStatus, setSelectedStatus] = useState('all');
   const [selectedLocation, setSelectedLocation] = useState('all');
+  const [selectedStatus, setSelectedStatus] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [sortBy, setSortBy] = useState<'date' | 'tech' | 'location'>('date');
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
   const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
 
-  // Reset page when filters change
+  // Reset page when filters change or items per page changes
   useEffect(() => {
     setCurrentPage(1);
-  }, [selectedDate, selectedLocation, selectedStatus, searchQuery, sortBy, sortOrder]);
+  }, [selectedDate, selectedLocation, selectedStatus, searchQuery, sortBy, sortOrder, itemsPerPage]);
 
   const filteredAppointments = useMemo(() => {
     return appointments.filter(apt => {
@@ -90,9 +91,9 @@ export function AppointmentView({ data }: AppointmentViewProps) {
     });
   }, [appointments, selectedDate, selectedLocation, selectedStatus, searchQuery, sortBy, sortOrder]);
 
-  const totalPages = Math.ceil(filteredAppointments.length / ITEMS_PER_PAGE);
-  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
-  const paginatedAppointments = filteredAppointments.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+  const totalPages = Math.ceil(filteredAppointments.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const paginatedAppointments = filteredAppointments.slice(startIndex, startIndex + itemsPerPage);
 
   return (
     <div className="space-y-6">
@@ -175,6 +176,23 @@ export function AppointmentView({ data }: AppointmentViewProps) {
             <option value="location-desc">Localisation (Z-A)</option>
           </select>
         </div>
+
+        <div className="relative">
+          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <ListFilter className="h-5 w-5 text-violet-400" />
+          </div>
+          <select
+            value={itemsPerPage}
+            onChange={(e) => setItemsPerPage(Number(e.target.value))}
+            className="block w-full pl-10 pr-10 py-2 bg-slate-900/50 border border-white/10 rounded-lg text-white focus:ring-2 focus:ring-violet-500 focus:border-violet-500 appearance-none cursor-pointer"
+          >
+            {ITEMS_PER_PAGE_OPTIONS.map(option => (
+              <option key={option} value={option}>
+                {option} rendez-vous par page
+              </option>
+            ))}
+          </select>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
@@ -202,12 +220,12 @@ export function AppointmentView({ data }: AppointmentViewProps) {
         )}
       </div>
 
-      {filteredAppointments.length > ITEMS_PER_PAGE && (
+      {filteredAppointments.length > itemsPerPage && (
         <Pagination
           currentPage={currentPage}
           totalPages={totalPages}
           onPageChange={setCurrentPage}
-          itemsPerPage={ITEMS_PER_PAGE}
+          itemsPerPage={itemsPerPage}
           totalItems={filteredAppointments.length}
         />
       )}

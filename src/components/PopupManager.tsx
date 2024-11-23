@@ -9,6 +9,7 @@ interface Popup {
   title: string;
   message: string;
   duration?: number;
+  onClick?: () => void;
 }
 
 interface PopupManagerProps {
@@ -53,8 +54,10 @@ export function PopupManager({ popups, onClose }: PopupManagerProps) {
         return (
           <div
             key={popup.id}
+            onClick={popup.onClick}
             className={`${style.bg} backdrop-blur-xl rounded-lg shadow-lg border ${style.border} 
-              w-80 transform transition-all duration-300 animate-fade-in-up`}
+              w-80 transform transition-all duration-300 animate-fade-in-up
+              ${popup.onClick ? 'cursor-pointer hover:scale-105' : ''}`}
             style={{ animationDelay: `${index * 100}ms` }}
           >
             <div className="p-4">
@@ -69,7 +72,10 @@ export function PopupManager({ popups, onClose }: PopupManagerProps) {
                   </p>
                 </div>
                 <button
-                  onClick={() => onClose(popup.id)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onClose(popup.id);
+                  }}
                   className="flex-shrink-0 ml-4 text-white/60 hover:text-white transition-colors"
                 >
                   <X className="h-5 w-5" />

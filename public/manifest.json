@@ -1,0 +1,17 @@
+{
+  "name": "eTraceMaster",
+  "short_name": "eTraceMaster",
+  "description": "Gestionnaire de rendez-vous pour les techniciens SPIE",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#020617",
+  "theme_color": "#020617",
+  "icons": [
+    {
+      "src": "/icon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

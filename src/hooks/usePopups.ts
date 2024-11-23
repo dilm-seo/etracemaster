@@ -7,6 +7,7 @@ interface Popup {
   title: string;
   message: string;
   duration?: number;
+  onClick?: () => void;
 }
 
 export function usePopups() {
@@ -31,20 +32,20 @@ export function usePopups() {
     setPopups(current => current.filter(popup => popup.id !== id));
   }, []);
 
-  const showSuccess = useCallback((title: string, message: string, duration = 5000) => {
-    return addPopup({ type: 'success', title, message, duration });
+  const showSuccess = useCallback((title: string, message: string, duration = 5000, onClick?: () => void) => {
+    return addPopup({ type: 'success', title, message, duration, onClick });
   }, [addPopup]);
 
-  const showError = useCallback((title: string, message: string, duration = 8000) => {
-    return addPopup({ type: 'error', title, message, duration });
+  const showError = useCallback((title: string, message: string, duration = 8000, onClick?: () => void) => {
+    return addPopup({ type: 'error', title, message, duration, onClick });
   }, [addPopup]);
 
-  const showInfo = useCallback((title: string, message: string, duration = 5000) => {
-    return addPopup({ type: 'info', title, message, duration });
+  const showInfo = useCallback((title: string, message: string, duration = 5000, onClick?: () => void) => {
+    return addPopup({ type: 'info', title, message, duration, onClick });
   }, [addPopup]);
 
-  const showWarning = useCallback((title: string, message: string, duration = 6000) => {
-    return addPopup({ type: 'warning', title, message, duration });
+  const showWarning = useCallback((title: string, message: string, duration = 6000, onClick?: () => void) => {
+    return addPopup({ type: 'warning', title, message, duration, onClick });
   }, [addPopup]);
 
   return {

@@ -4,6 +4,7 @@ import { FileViewer } from './components/FileViewer';
 import { Preloader } from './components/Preloader';
 import { FloatingAssistant } from './components/FloatingAssistant';
 import { EncouragementMessage } from './components/EncouragementMessage';
+import { InstallPWA } from './components/InstallPWA';
 import { PopupManager } from './components/PopupManager';
 import { usePopups } from './hooks/usePopups';
 import { FileIcon, ExternalLinkIcon } from 'lucide-react';
@@ -16,6 +17,17 @@ export default function App() {
   const [appointments, setAppointments] = useState<any[]>([]);
   const [error, setError] = useState<string | null>(null);
   const { popups, showSuccess, showError, showInfo, showWarning, removePopup } = usePopups();
+  const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
+
+  useEffect(() => {
+    const handler = (e: Event) => {
+      e.preventDefault();
+      setDeferredPrompt(e);
+    };
+
+    window.addEventListener('beforeinstallprompt', handler);
+    return () => window.removeEventListener('beforeinstallprompt', handler);
+  }, []);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -24,7 +36,7 @@ export default function App() {
     return () => clearTimeout(timer);
   }, []);
 
-  const handleFileData = useCallback((data: any) => {
+  const handleFileData = useCallback(async (data: any) => {
     try {
       setImporting(true);
       setProgress(0);
@@ -53,10 +65,34 @@ export default function App() {
         setFileData(data);
         setAppointments(formattedAppointments);
         setError(null);
+
         showSuccess(
           'Import réussi',
           `${formattedAppointments.length} rendez-vous ont été importés avec succès.`
         );
+
+        // Show PWA install info after successful import
+        if (deferredPrompt && !window.matchMedia('(display-mode: standalone)').matches) {
+          setTimeout(() => {
+            showInfo(
+              'Installation disponible',
+              'Installez l\'application pour un accès rapide et hors-ligne à vos rendez-vous.',
+              10000,
+              async () => {
+                try {
+                  await deferredPrompt.prompt();
+                  const { outcome } = await deferredPrompt.userChoice;
+                  if (outcome === 'accepted') {
+                    showSuccess('Installation réussie', 'L\'application a été installée avec succès.');
+                  }
+                  setDeferredPrompt(null);
+                } catch (err) {
+                  console.error('Installation error:', err);
+                }
+              }
+            );
+          }, 2000);
+        }
       } else {
         throw new Error("Format de fichier invalide");
       }
@@ -73,7 +109,7 @@ export default function App() {
       setImporting(false);
       setProgress(0);
     }
-  }, [showSuccess, showError]);
+  }, [showSuccess, showError, showInfo, deferredPrompt]);
 
   if (loading) {
     return <Preloader />;
@@ -81,6 +117,7 @@ export default function App() {
 
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-br from-slate-900 via-indigo-950 to-purple-950">
+      <InstallPWA />
       <PopupManager popups={popups} onClose={removePopup} />
       
       <nav className="bg-slate-800/50 backdrop-blur-xl border-b border-white/5">
@@ -132,7 +169,7 @@ export default function App() {
       <footer className="bg-slate-800/50 backdrop-blur-xl border-t border-white/5 py-4 mt-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <p className="text-center text-sm text-slate-400">
-            © {new Date().getFullYear()} - Outil créé par Etienne Aubry, Technicien SPIE
+            © {new Date().getFullYear()} eTraceMaster
           </p>
         </div>
       </footer>
