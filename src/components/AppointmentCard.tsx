@@ -36,7 +36,7 @@ export function AppointmentCard({ appointment, animate = false, delay = 0 }: App
   const handleCopyRitm = async (e: React.MouseEvent) => {
     e.preventDefault();
     try {
-      await navigator.clipboard.writeText(`RITM-${ritm}`);
+      await navigator.clipboard.writeText(ritm);
       setIsCopied(true);
       setTimeout(() => setIsCopied(false), 2000);
     } catch (err) {
@@ -48,7 +48,7 @@ export function AppointmentCard({ appointment, animate = false, delay = 0 }: App
     setIsSharing(true);
     const appointmentDate = formatDate(appointment['RDV']?.split(' ')[0] || '');
     const shareText = `
-Intervention RITM-${ritm}
+Intervention ${ritm}
 📅 ${appointmentDate}
 🕒 ${startTime} - ${endTime}
 📍 ${appointment['LOCALISATION']}
@@ -59,7 +59,7 @@ ${isUrgent ? '⚠️ URGENT' : ''}
     try {
       if (navigator.share) {
         await navigator.share({
-          title: `Intervention RITM-${ritm}`,
+          title: `Intervention ${ritm}`,
           text: shareText,
         });
       } else {
@@ -74,7 +74,7 @@ ${isUrgent ? '⚠️ URGENT' : ''}
   };
 
   const handleEmailShare = () => {
-    const subject = encodeURIComponent(`Intervention RITM-${ritm}`);
+    const subject = encodeURIComponent(`Intervention ${ritm}`);
     const body = encodeURIComponent(`
 Détails de l'intervention :
 
@@ -128,7 +128,7 @@ ${newBarcode ? `\nNouveau code-barre: ${newBarcode}` : ''}
         <div className="flex items-center justify-between bg-slate-700/30 px-3 py-2 rounded-lg">
           <div className="flex items-center space-x-2">
             <Ticket className="h-5 w-5 text-violet-400" />
-            <span className="text-white font-medium">RITM-{ritm}</span>
+            <span className="text-white font-medium">{ritm}</span>
           </div>
           <div className="flex items-center space-x-2">
             <button

@@ -41,7 +41,7 @@ export function StockPartCard({ appointment, animate = false, delay = 0 }: Stock
             className="flex items-center space-x-1 hover:text-violet-200 transition-colors"
           >
             <Ticket className="h-4 w-4" />
-            <span className="font-medium">RITM-{ritm}</span>
+            <span className="font-medium">{ritm}</span>
             <ExternalLink className="h-3 w-3 opacity-50" />
           </a>
         </div>
