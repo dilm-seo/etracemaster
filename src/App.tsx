@@ -1,14 +1,17 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { FileUpload } from './components/FileUpload';
 import { FileViewer } from './components/FileViewer';
+import { TechnicianSelector } from './components/TechnicianSelector';
 import { Preloader } from './components/Preloader';
 import { FloatingAssistant } from './components/FloatingAssistant';
-import { FileIcon, TableIcon, ExternalLinkIcon } from 'lucide-react';
+import { FileIcon, ExternalLinkIcon } from 'lucide-react';
 
-function App() {
-  const [fileData, setFileData] = useState<any>(null);
+export default function App() {
   const [loading, setLoading] = useState(true);
+  const [importing, setImporting] = useState(false);
+  const [progress, setProgress] = useState(0);
+  const [fileData, setFileData] = useState<any>(null);
   const [appointments, setAppointments] = useState<any[]>([]);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -17,10 +20,11 @@ function App() {
     return () => clearTimeout(timer);
   }, []);
 
-  useEffect(() => {
-    if (fileData?.[0]?.data) {
-      const headers = fileData[0].data[0];
-      const rows = fileData[0].data.slice(1);
+  const handleFileData = (data: any) => {
+    setFileData(data);
+    if (data?.[0]?.data) {
+      const headers = data[0].data[0];
+      const rows = data[0].data.slice(1);
       const formattedAppointments = rows.map((row: any[]) => {
         const appointment: any = {};
         headers.forEach((header: string, index: number) => {
@@ -29,12 +33,9 @@ function App() {
         return appointment;
       });
       setAppointments(formattedAppointments);
+      setError(null);
     }
-  }, [fileData]);
-
-  const handleFileUpload = useCallback((data: any) => {
-    setFileData(data);
-  }, []);
+  };
 
   if (loading) {
     return <Preloader />;
@@ -67,34 +68,25 @@ function App() {
       <main className="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {!fileData ? (
           <div className="bg-slate-800/50 backdrop-blur-xl rounded-2xl shadow-2xl p-8 border border-white/5">
-            <div className="max-w-xl mx-auto text-center">
-              <TableIcon className="h-14 w-14 text-violet-400 mx-auto mb-6 animate-bounce" />
-              <h2 className="text-2xl font-bold text-white mb-4">
-                Importez votre fichier Excel
-              </h2>
-              <p className="text-slate-300 mb-8">
-                Glissez-déposez votre fichier Excel ici ou cliquez pour parcourir. 
-                Nous vous aiderons à analyser et organiser vos rendez-vous.
-              </p>
-              <FileUpload onFileUpload={handleFileUpload} />
-            </div>
+            <TechnicianSelector 
+              onSelect={handleFileData}
+              loading={importing}
+              progress={progress}
+            />
+            {error && (
+              <div className="mt-6 max-w-md mx-auto">
+                <div className="bg-red-500/10 border border-red-500/20 rounded-lg p-4 text-center">
+                  <p className="text-red-400">{error}</p>
+                </div>
+              </div>
+            )}
           </div>
         ) : (
           <FileViewer data={fileData} />
         )}
       </main>
 
-      <footer className="bg-slate-800/50 backdrop-blur-xl border-t border-white/5 py-4 mt-8">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <p className="text-center text-sm text-slate-400">
-            © {new Date().getFullYear()} - Outil créé par Etienne Aubry, Technicien SPIE
-          </p>
-        </div>
-      </footer>
-
       {appointments.length > 0 && <FloatingAssistant appointments={appointments} />}
     </div>
   );
 }
-
-export default App;

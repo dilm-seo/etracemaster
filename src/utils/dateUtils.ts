@@ -1,34 +1,25 @@
 export function parseAppointmentDate(rdv: string): Date {
-  if (!rdv) return new Date(0);
+  if (!rdv) return new Date();
   const [datePart] = rdv.split(' ');
-  if (!datePart) return new Date(0);
+  if (!datePart) return new Date();
   
   const [day, month, year] = datePart.split('-').map(Number);
-  if (!day || !month || !year) return new Date(0);
+  if (!day || !month || !year) return new Date();
   
   return new Date(year, month - 1, day);
 }
 
 export function parseAppointmentTimes(rdv: string): [string, string] {
-  if (!rdv || !rdv.includes(' au ')) {
-    return ['00:00', '00:00'];
-  }
+  if (!rdv) return ['00:00', '00:00'];
   
   try {
     const [startPart, endPart] = rdv.split(' au ');
-    const startTime = startPart.split(' ')[1]?.slice(0, 5) || '00:00';
-    const endTime = endPart.split(' ')[1]?.slice(0, 5) || '00:00';
+    const startTime = startPart?.split(' ')?.[1]?.slice(0, 5) || '00:00';
+    const endTime = endPart?.split(' ')?.[1]?.slice(0, 5) || '00:00';
     return [startTime, endTime];
   } catch (error) {
     return ['00:00', '00:00'];
   }
-}
-
-export function extractPhoneNumber(text: string): string | null {
-  if (!text) return null;
-  const phoneRegex = /(?:Tel\s*:|Tél\s*:)?\s*((?:(?:\+|00)33|0)\s*[1-9](?:[\s.-]*\d{2}){4})/;
-  const match = text.match(phoneRegex);
-  return match ? match[1] : null;
 }
 
 export function formatDate(dateStr: string): string {
@@ -55,12 +46,19 @@ export function getTodayString(): string {
   return `${day}-${month}-${year}`;
 }
 
+export function extractPhoneNumber(text: string): string | null {
+  if (!text) return null;
+  const phoneRegex = /(?:Tel\s*:|Tél\s*:)?\s*((?:(?:\+|00)33|0)\s*[1-9](?:[\s.-]*\d{2}){4})/;
+  const match = text.match(phoneRegex);
+  return match ? match[1] : null;
+}
+
 export function findClosestDate(dates: string[], targetDate: string): string {
   if (!dates.length) return 'all';
   if (dates.includes(targetDate)) return targetDate;
 
   const target = parseAppointmentDate(targetDate);
-  let closestDate = 'all';
+  let closestDate = dates[0];
   let minDiff = Infinity;
 
   for (const date of dates) {

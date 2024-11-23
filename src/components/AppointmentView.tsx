@@ -28,11 +28,7 @@ export function AppointmentView({ data }: AppointmentViewProps) {
         if (date) dates.add(date);
       }
     });
-    return Array.from(dates).sort((a, b) => {
-      if (a === 'all') return -1;
-      if (b === 'all') return 1;
-      return parseAppointmentDate(a).getTime() - parseAppointmentDate(b).getTime();
-    });
+    return dates;
   }, [appointments]);
 
   const uniqueTechs = useMemo(() => {
@@ -40,13 +36,11 @@ export function AppointmentView({ data }: AppointmentViewProps) {
     appointments.forEach(apt => {
       if (apt['TECHNICIEN']) techs.add(apt['TECHNICIEN']);
     });
-    return Array.from(techs);
+    return techs;
   }, [appointments]);
 
   const today = getTodayString();
-  const initialDate = findClosestDate(uniqueDates, today);
-
-  const [selectedDate, setSelectedDate] = useState(initialDate);
+  const [selectedDate, setSelectedDate] = useState(findClosestDate(Array.from(uniqueDates), today));
   const [selectedTech, setSelectedTech] = useState('all');
   const [selectedStatus, setSelectedStatus] = useState('all');
   const [sortBy, setSortBy] = useState<'date' | 'tech' | 'location'>('date');
@@ -83,7 +77,7 @@ export function AppointmentView({ data }: AppointmentViewProps) {
               setSelectedDate('all');
             }
           }}
-          availableDates={new Set(uniqueDates)}
+          availableDates={uniqueDates}
         />
 
         <select
@@ -92,7 +86,7 @@ export function AppointmentView({ data }: AppointmentViewProps) {
           className="bg-slate-900/50 border border-white/10 rounded-lg px-4 py-2 focus:ring-2 focus:ring-violet-500 focus:border-violet-500 text-white"
         >
           <option value="all">Tous les techniciens</option>
-          {uniqueTechs.slice(1).map(tech => (
+          {Array.from(uniqueTechs).slice(1).map(tech => (
             <option key={tech} value={tech}>{tech}</option>
           ))}
         </select>
@@ -147,11 +141,11 @@ export function AppointmentView({ data }: AppointmentViewProps) {
         <div className="flex items-center space-x-4">
           <div className="flex items-center space-x-2">
             <Users className="h-4 w-4" />
-            <span>{uniqueTechs.length - 1} techniciens</span>
+            <span>{uniqueTechs.size - 1} techniciens</span>
           </div>
           <div className="flex items-center space-x-2">
             <Calendar className="h-4 w-4" />
-            <span>{uniqueDates.length - 1} dates</span>
+            <span>{uniqueDates.size - 1} dates</span>
           </div>
           <div className="flex items-center space-x-2">
             <AlertCircle className="h-4 w-4" />
