@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { Table } from './Table';
 import { DataInsights } from './DataInsights';
 import { AppointmentView } from './AppointmentView';
-import { ChevronDownIcon, ChevronRightIcon, TableIcon, BarChart2Icon, CalendarIcon, MenuIcon } from 'lucide-react';
+import { StockPartsView } from './StockPartsView';
+import { ChevronDownIcon, ChevronRightIcon, TableIcon, BarChart2Icon, CalendarIcon, MenuIcon, Package } from 'lucide-react';
 import { SheetAnalysis } from '../utils/excelAnalyzer';
 
 interface FileViewerProps {
@@ -11,7 +12,7 @@ interface FileViewerProps {
 
 export function FileViewer({ data }: FileViewerProps) {
   const [activeSheet, setActiveSheet] = useState(0);
-  const [activeView, setActiveView] = useState<'table' | 'insights' | 'appointments'>('appointments');
+  const [activeView, setActiveView] = useState<'table' | 'insights' | 'appointments' | 'stock'>('appointments');
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const sheet = data[activeSheet];
@@ -21,6 +22,11 @@ export function FileViewer({ data }: FileViewerProps) {
       id: 'appointments',
       label: 'Rendez-vous',
       icon: CalendarIcon,
+    },
+    {
+      id: 'stock',
+      label: 'Stock',
+      icon: Package,
     },
     {
       id: 'table',
@@ -111,6 +117,8 @@ export function FileViewer({ data }: FileViewerProps) {
                 <DataInsights key={column.name} column={column} />
               ))}
             </div>
+          ) : activeView === 'stock' ? (
+            <StockPartsView data={sheet} />
           ) : (
             <AppointmentView data={sheet} />
           )}
