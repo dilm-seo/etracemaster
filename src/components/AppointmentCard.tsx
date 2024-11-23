@@ -33,8 +33,7 @@ export function AppointmentCard({ appointment, animate = false, delay = 0 }: App
     appointment['NOUVEAU CB'] ||
     null;
 
-  const handleCopyRitm = async (e: React.MouseEvent) => {
-    e.preventDefault();
+  const handleCopyRitm = async () => {
     try {
       await navigator.clipboard.writeText(ritm);
       setIsCopied(true);
@@ -246,15 +245,29 @@ ${newBarcode ? `\nNouveau code-barre: ${newBarcode}` : ''}
           </p>
         </div>
 
-        <a
-          href={`https://etrace.cristalcloud.com/Pilotage-10/11-livraison.php?ritm=${ritm}`}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="mt-4 flex items-center justify-center w-full px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg transition-colors duration-200 gap-2 group-hover:bg-emerald-500"
-        >
-          <ExternalLink className="h-4 w-4" />
-          <span>Ouvrir dans eTRACE</span>
-        </a>
+        <div className="flex gap-2">
+          <button
+            onClick={handleCopyRitm}
+            className="flex-1 flex items-center justify-center px-4 py-2 bg-violet-600 hover:bg-violet-500 text-white rounded-lg transition-colors duration-200 gap-2"
+          >
+            <Copy className="h-4 w-4" />
+            <span>Copier le RITM</span>
+            {isCopied && (
+              <span className="text-sm bg-white/10 px-2 py-0.5 rounded-full">
+                Copié !
+              </span>
+            )}
+          </button>
+          <a
+            href={`https://etrace.cristalcloud.com/Pilotage-10/11-livraison.php?ritm=${ritm}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex-1 flex items-center justify-center px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg transition-colors duration-200 gap-2"
+          >
+            <ExternalLink className="h-4 w-4" />
+            <span>Ouvrir eTRACE</span>
+          </a>
+        </div>
       </div>
     </div>
   );
