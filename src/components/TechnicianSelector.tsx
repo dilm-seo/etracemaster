@@ -1,5 +1,5 @@
 import React from 'react';
-import { UploadIcon, AlertTriangle, ExternalLink, Download } from 'lucide-react';
+import { UploadIcon, AlertTriangle, ExternalLink, Download, FilterIcon } from 'lucide-react';
 import { analyzeExcelFile } from '../utils/excelAnalyzer';
 
 interface TechnicianSelectorProps {
@@ -79,15 +79,22 @@ export function TechnicianSelector({ onSelect, loading }: TechnicianSelectorProp
           </label>
         </div>
 
-        <a
-          href="https://etrace.cristalcloud.com/MODULES/Covea/livraison_export.php?statut="
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex items-center justify-center space-x-2 w-full px-6 py-4 bg-violet-600 hover:bg-violet-500 text-white rounded-xl transition-colors duration-200 group"
-        >
-          <Download className="h-5 w-5 transform group-hover:translate-y-0.5 transition-transform duration-200" />
-          <span>Télécharger le planning complet</span>
-        </a>
+        <div className="space-y-4">
+          <a
+            href="https://etrace.cristalcloud.com/MODULES/Covea/livraison_export.php?statut="
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center justify-center space-x-2 w-full px-6 py-4 bg-violet-600 hover:bg-violet-500 text-white rounded-xl transition-colors duration-200 group"
+          >
+            <Download className="h-5 w-5 transform group-hover:translate-y-0.5 transition-transform duration-200" />
+            <span>Télécharger le planning complet</span>
+          </a>
+
+          <div className="flex items-center space-x-2 text-slate-300 text-sm justify-center">
+            <FilterIcon className="h-4 w-4 text-violet-400" />
+            <p>Pensez à vérifier vos filtres dans eTRACE avant le téléchargement</p>
+          </div>
+        </div>
       </div>
     </div>
   );
