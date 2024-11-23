@@ -36,7 +36,7 @@ export function TechnicianSelector({ onSelect, loading }: TechnicianSelectorProp
           <p className="text-sm">
             Pour accéder aux données, veuillez d'abord vous connecter à{' '}
             <a 
-              href="https://etrace.cristalcloud.com/MODULES/Covea/livraison_export.php?statut=" 
+              href="https://etrace.cristalcloud.com/Pilotage-10/11-livraison.php" 
               target="_blank" 
               rel="noopener noreferrer"
               className="inline-flex items-center space-x-1 underline hover:text-amber-200"
