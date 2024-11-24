@@ -69,10 +69,10 @@
         background-color: black; /* Gris sombre initial */
     }
     25% {
-        background-color: grey; /* Bleu */
+        background-color: darkblue; /* Bleu */
     }
     50% {
-        background-color: blue; /* Vert émeraude */
+        background-color: black; /* Vert émeraude */
     }
     75% {
         background-color: darkblue; /* gris clair */
