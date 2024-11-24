@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Calendar, MapPin, User, Wrench, Clock, Truck, Phone, ChevronDown, ChevronUp, AlertCircle, ExternalLink, Ticket, Copy, Check, Barcode, Share2, Mail } from 'lucide-react';
 import { parseAppointmentTimes, formatDate, extractPhoneNumber } from '../utils/dateUtils';
 import { StatusBadge } from './StatusBadge';
@@ -35,6 +35,26 @@ export function AppointmentCard({ appointment, animate = false, delay = 0 }: App
     appointment['NOUVEAU CB'] ||
     null;
 
+  // UseEffect to handle URL parameters for eTRACE filtering
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.has('ritm')) {
+      const ritmValue = params.get('ritm');
+
+      // Simulate form interaction in the eTRACE system
+      const rechValeurElement = document.querySelector('#RECH_VALEUR') as HTMLInputElement;
+      const rechColonneElement = document.querySelector('#RECH_COLONNE') as HTMLSelectElement;
+      const formElement = document.querySelector('form[action="11-livraison.php"]') as HTMLFormElement;
+
+      if (rechValeurElement && rechColonneElement && formElement) {
+        rechValeurElement.value = ritmValue ?? '';
+        rechColonneElement.value = 'LIG_NUMERO¤RITM';
+        formElement.submit();
+      }
+    }
+  }, []);
+
+  // Function to copy RITM to clipboard
   const handleCopyRitm = async () => {
     try {
       await navigator.clipboard.writeText(ritm);
@@ -45,6 +65,7 @@ export function AppointmentCard({ appointment, animate = false, delay = 0 }: App
     }
   };
 
+  // Function to handle share using Web Share API or Clipboard
   const handleShare = async () => {
     setIsSharing(true);
     const appointmentDate = formatDate(appointment['RDV']?.split(' ')[0] || '');
@@ -74,6 +95,7 @@ ${isUrgent ? '⚠️ URGENT' : ''}
     }
   };
 
+  // Function to handle email sharing
   const handleEmailShare = () => {
     const subject = encodeURIComponent(`Intervention ${ritm}`);
     const body = encodeURIComponent(`
@@ -174,68 +196,6 @@ ${newBarcode ? `\nNouveau code-barre: ${newBarcode}` : ''}
             )}
           </div>
         )}
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div className="space-y-3">
-            <div className="flex items-start space-x-2">
-              <MapPin className="h-5 w-5 text-violet-400 mt-1 flex-shrink-0" />
-              <span className="text-slate-300 text-sm">{appointment['LOCALISATION']}</span>
-            </div>
-
-            <div className="flex items-center space-x-2">
-              <User className="h-5 w-5 text-violet-400" />
-              <span className="text-slate-300 text-sm">{appointment['TECHNICIEN']}</span>
-            </div>
-
-            {phoneNumber && (
-              <div className="flex items-center space-x-2">
-                <Phone className="h-5 w-5 text-violet-400" />
-                <a href={`tel:${phoneNumber}`} className="text-slate-300 text-sm hover:text-violet-400">
-                  {phoneNumber}
-                </a>
-              </div>
-            )}
-          </div>
-
-          <div className="space-y-3">
-            <div className="flex items-start space-x-2">
-              <Wrench className="h-5 w-5 text-violet-400 mt-1 flex-shrink-0" />
-              <span className="text-slate-300 text-sm line-clamp-2">{appointment['ARTICLE']}</span>
-            </div>
-
-            {appointment['POINT RELAI'] && (
-              <div className="flex items-start space-x-2">
-                <Truck className="h-5 w-5 text-violet-400 mt-1 flex-shrink-0" />
-                <span className="text-slate-300 text-sm">{appointment['POINT RELAI']}</span>
-              </div>
-            )}
-          </div>
-        </div>
-
-        <div className="mt-4 pt-4 border-t border-white/5">
-          <div className="flex items-center justify-between mb-2">
-            <h4 className="text-sm font-medium text-white">Notes :</h4>
-            <button
-              onClick={() => setIsExpanded(!isExpanded)}
-              className="flex items-center text-violet-400 text-sm hover:text-violet-300"
-            >
-              {isExpanded ? (
-                <>
-                  <ChevronUp className="h-4 w-4 mr-1" />
-                  <span className="hidden sm:inline">Voir moins</span>
-                </>
-              ) : (
-                <>
-                  <ChevronDown className="h-4 w-4 mr-1" />
-                  <span className="hidden sm:inline">Voir plus</span>
-                </>
-              )}
-            </button>
-          </div>
-          <p className={`text-slate-300 text-sm ${isExpanded ? '' : 'line-clamp-3'}`}>
-            {appointment['JUSTIFICATION']}
-          </p>
-        </div>
 
         <div className="grid grid-cols-2 gap-2 mt-4">
           <button
