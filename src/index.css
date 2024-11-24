@@ -63,3 +63,26 @@
 .react-datepicker-popper {
   @apply z-50 !important;
 }
+
+@keyframes fadeColors {
+    0% {
+        background-color: #111827; /* Gris sombre initial */
+    }
+    25% {
+        background-color: #2563eb; /* Bleu */
+    }
+    50% {
+        background-color: #10b981; /* Vert émeraude */
+    }
+    75% {
+        background-color: #302E32; /* gris clair */
+    }
+    100% {
+        background-color: #111827; /* Retour au gris sombre */
+    }
+}
+
+.to-indigo-900\/95 {
+    animation: fadeColors 12s infinite;
+    transition: background-color 3s ease-in-out;
+}
