@@ -64,7 +64,7 @@ export function TechnicianSelector({ onSelect, loading, progress }: TechnicianSe
         <div className="inline-flex items-center space-x-2 bg-amber-500/10 text-amber-300 px-4 py-2 rounded-lg">
           <AlertTriangle className="h-5 w-5" />
           <p className="text-sm">
-            Pour accéder aux données, veuillez d'abord vous connecter à{' '}
+            Pour télécharger les données, assurez vous d'abord de vous connecter à{' '}
             <a 
               href="https://etrace.cristalcloud.com/Pilotage-10/11-livraison.php" 
               target="_blank" 
@@ -75,6 +75,23 @@ export function TechnicianSelector({ onSelect, loading, progress }: TechnicianSe
               <ExternalLink className="h-4 w-4" />
             </a>
           </p>
+        </div>
+		 <div className="space-y-4">
+          <a
+            href="https://etrace.cristalcloud.com/MODULES/Covea/livraison_export.php?statut="
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center justify-center space-x-2 w-full px-6 py-4 bg-violet-600 hover:bg-violet-500 text-white rounded-xl transition-all duration-200 group relative overflow-hidden"
+          >
+            <div className="absolute inset-0 bg-gradient-to-r from-violet-400/20 to-fuchsia-400/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            <Download className="h-5 w-5 transform group-hover:translate-y-0.5 transition-transform duration-200" />
+            <span className="relative">Télécharger le planning complet</span>
+          </a>
+
+          <div className="flex items-center space-x-2 text-slate-300 text-sm justify-center bg-slate-700/30 px-4 py-3 rounded-lg">
+            <FilterIcon className="h-4 w-4 text-violet-400" />
+            <p>Attention à vérifier vos filtres dans eTRACE avant le téléchargement</p>
+          </div>
         </div>
       </div>
 
@@ -140,23 +157,7 @@ export function TechnicianSelector({ onSelect, loading, progress }: TechnicianSe
           </div>
         </div>
 
-        <div className="space-y-4">
-          <a
-            href="https://etrace.cristalcloud.com/MODULES/Covea/livraison_export.php?statut="
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center justify-center space-x-2 w-full px-6 py-4 bg-violet-600 hover:bg-violet-500 text-white rounded-xl transition-all duration-200 group relative overflow-hidden"
-          >
-            <div className="absolute inset-0 bg-gradient-to-r from-violet-400/20 to-fuchsia-400/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-            <Download className="h-5 w-5 transform group-hover:translate-y-0.5 transition-transform duration-200" />
-            <span className="relative">Télécharger le planning complet</span>
-          </a>
-
-          <div className="flex items-center space-x-2 text-slate-300 text-sm justify-center bg-slate-700/30 px-4 py-3 rounded-lg">
-            <FilterIcon className="h-4 w-4 text-violet-400" />
-            <p>Attention à vérifier vos filtres dans eTRACE avant le téléchargement</p>
-          </div>
-        </div>
+       
       </div>
     </div>
   );
