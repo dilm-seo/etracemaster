@@ -1,0 +1,624 @@
+<html><plasmo-csui></plasmo-csui><head><title>eTRACE by SPIE</title>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<link rel="shortcut icon" href="https://etrace.cristalcloud.com/IMAGES/favicon.ico" type="image/x-icon">
+<link rel="stylesheet" type="text/css" href="https://etrace.cristalcloud.com/CSS/site3.0.1.css">
+<link rel="stylesheet" type="text/css" href="https://etrace.cristalcloud.com/CSS/site_tel_3.0.1299.css" media="screen and (max-width: 1024px)">
+<link rel="stylesheet" type="text/css" href="https://etrace.cristalcloud.com/CSS/fontello-anim.css">
+<link rel="stylesheet" type="text/css" href="https://etrace.cristalcloud.com/CSS/fontello.css">
+<script>var racine = 'https://etrace.cristalcloud.com/';</script>
+
+<!-- ################# LIBRAIRIE JQUERY ########################### -->
+<script src="https://etrace.cristalcloud.com/JS/jquery-3.6.0.min.js"></script>
+
+
+<!-- ################# CHECKBOX au format oui/non ########################### -->
+<script src="https://etrace.cristalcloud.com/JS/on-off-switch.js"></script>
+<script src="https://etrace.cristalcloud.com/JS/on-off-switch-onload.js"></script>
+<link rel="stylesheet" type="text/css" href="https://etrace.cristalcloud.com/CSS/on-off-switch.css">
+
+
+<!-- ################# LIBRAIRIE ETRACE GENERIQUE ########################### -->
+<script src="https://etrace.cristalcloud.com/JS/ajax.js"></script>
+
+
+<!-- ################# SELECTEUR DE DATE / HEURE ########################### -->
+<link rel="stylesheet" type="text/css" href="https://etrace.cristalcloud.com/CSS/jquery.datetimepicker.css">
+<script src="https://etrace.cristalcloud.com/JS/jquery.datetimepicker.js"></script>
+
+
+<!-- ################# INFOBULLE ########################### -->
+<link rel="stylesheet" type="text/css" href="https://etrace.cristalcloud.com/CSS/tooltipster.bundle.css">
+<script src="https://etrace.cristalcloud.com/JS/tooltipster.bundle.min.js"></script>
+
+
+<!-- ################# COMPOSANT TEXTE RICHE ########################### -->
+<link rel="stylesheet" type="text/css" href="https://etrace.cristalcloud.com/CSS/trumbowyg.min.css">
+<!--<link rel="stylesheet" type="text/css" href="https://etrace.cristalcloud.com/CSS/trumbowyg.colors.css">-->
+<script src="https://etrace.cristalcloud.com/JS/trumbowyg.min.js"></script>
+<script src="https://etrace.cristalcloud.com/JS/trumbowyg.colors.min.js"></script>
+<script src="https://etrace.cristalcloud.com/JS/trumbowyg.fontsize.min.js"></script>
+<script src="https://etrace.cristalcloud.com/JS/trumbowyg.pasteimage.js"></script>
+<script src="https://etrace.cristalcloud.com/JS/trumbowyg.base64.js"></script>
+<!--<script src="https://etrace.cristalcloud.com/JS/trumbowyg.pasteembed.min.js"></script>-->
+<script src="https://etrace.cristalcloud.com/JS/trumbowyg.table.min.js"></script>
+<!--<script src="https://etrace.cristalcloud.com/JS/jquery-resizable.js"></script>
+<script src="https://etrace.cristalcloud.com/JS/trumbowyg.resizimg.js"></script>-->
+
+<script>
+$(document).ready(function() {
+    const params = new URLSearchParams(window.location.search);
+    if (params.has('ritm')) {
+        const ritmValue = params.get('ritm');
+        $('#RECH_VALEUR').val(ritmValue);
+        $('#RECH_COLONNE').val('LIG_NUMERO¤RITM');
+        $('form[action="11-livraison.php"]').submit();
+    }
+});
+</script>
+
+<!-- ################# JQUERY UI - MODULE PLANNING ########################### -->
+<link rel="stylesheet" type="text/css" href="https://etrace.cristalcloud.com/CSS/jquery-ui.structure.min.css">
+<link rel="stylesheet" type="text/css" href="https://etrace.cristalcloud.com/CSS/jquery-ui.theme.min.css">
+<script src="https://etrace.cristalcloud.com/JS/jquery-ui.min.js"></script>
+<script src="https://etrace.cristalcloud.com/JS/jquery.ui.touch-punch.min.js"></script>
+
+
+<!-- ################# ZONE DE SIGNATURE ########################### -->
+<script src="https://etrace.cristalcloud.com/JS/jSignature.js"></script>
+
+
+<!-- ################# COMPOSANT PLANNING ########################### -->
+<link rel="stylesheet" type="text/css" href="https://etrace.cristalcloud.com/CSS/fullcalendar.min.css">
+<link rel="stylesheet" type="text/css" href="https://etrace.cristalcloud.com/CSS/scheduler.min.css">
+<script src="https://etrace.cristalcloud.com/JS/moment.min.js"></script>
+<script src="https://etrace.cristalcloud.com/JS/moment-ferie-fr.min.js"></script>
+<script src="https://etrace.cristalcloud.com/JS/fullcalendar.min.js"></script>
+<script src="https://etrace.cristalcloud.com/JS/scheduler.min.js"></script>
+<script src="https://etrace.cristalcloud.com/JS/fr.js"></script>
+
+<!-- ################# JQUERY BOOTSTRAP ########################### -->
+<script src="https://etrace.cristalcloud.com/JS/jquery.form.min.js"></script>
+<script src="https://etrace.cristalcloud.com/JS/popper.min.js"></script>
+<script src="https://etrace.cristalcloud.com/JS/bootstrap.min.js"></script>
+
+<!-- ################# PICKER PALETTE DE COULEUR ########################### -->
+<script src="https://etrace.cristalcloud.com/JS/jquery.drawrpalette-min.js"></script>
+
+<!-- ################# TRI et PAGINATION TABLEAUX ########################### 
+<script src="https://etrace.cristalcloud.com/JS/jquery.tablesorter.js"></script>
+<script src="https://etrace.cristalcloud.com/JS/jquery.tablesorter.pager.js"></script>-->
+
+<!-- ################# VALIDATION DES FORMULAIRES ########################### -->
+<script src="https://etrace.cristalcloud.com/JS/jquery.validation.js"></script>
+
+<!-- ################# BLOCAGE HEADER TABLE ########################### -->
+<script src="https://etrace.cristalcloud.com/JS/jquery.stickytableheaders.min.js"></script>
+
+<!-- ################# NOEL ########################### -->
+
+<!-- FONCTIONS EXECUTES SUR TOUTES LES PAGES -->
+<script>$( document).ready(function() {langue_site = 'fr'; init_global(); IdPageSecurise(); });</script>
+
+
+
+
+
+
+
+<link rel="stylesheet" href="chrome-extension://emnoomldgleagdjapdeckpmebokijail/font/roboto-fonts.css" class="wtd-font"><link rel="stylesheet" href="chrome-extension://emnoomldgleagdjapdeckpmebokijail/font/unbounded-fonts.css" class="wtd-font"></head><body><header>
+		<ul>
+    	<li><a class="acc" href="https://etrace.cristalcloud.com/page.php">Accueil</a></li>
+		<li><font><a href="./">Pilotage</a></font></li><li><a href="../Pilotage-10/11-livraison.php"><font>Coordination</font></a></li>    </ul>
+
+	<span id="noel"></span>
+    <p>AUBRY Etienne</p>
+	    <a href="https://etrace.cristalcloud.com/deconnect.php"><o class="fa fa-power-off"></o></a>
+	<a href="https://etrace.cristalcloud.com/changetheme.php"><o class="fa fa-sun-o" title="Theme sombre/clair"></o></a>
+	<a href="#"><img class="lang" alt="fr" title="fr" src="https://etrace.cristalcloud.com/IMAGES/DRAPEAU/fr.png"></a>
+	<!--<a href="https://etrace.cristalcloud.com/"><o class="fa fa-cog"></o></a>-->
+</header>
+<div class="warning_ie">Ce navigateur n'est pas supporté, merci d'utiliser Firefox, Chrome ou Microsoft EDGE.</div>
+<div class="warning_ie" style="top:2vw;">Ce navigateur n'est pas supporté, merci d'utiliser Firefox, Chrome ou Microsoft EDGE.</div>
+<!-- ################# SCRIPT SPECIFIQUE AU MODULE ########################### -->
+<script src="https://etrace.cristalcloud.com/MODULES/Covea/script.js"></script>
+
+<page>
+<script src="https://etrace.cristalcloud.com/JS/jquery.modal.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://etrace.cristalcloud.com/CSS/jquery.modal.min.css">
+		<script>
+        $( document ).ready(function() { $('#table TR TH[tri]').one( "click", function() {  document.location.href='https://etrace.cristalcloud.com/Covea-10/11-livraison.php?&ritm=RITM00559180&gvpage=1&tri=' + $(this).attr('tri').replace('+','¤')  + ' ASC';  }).css('cursor','pointer'); });
+        </script>		
+	  
+<h2>suivi des livraisons
+	<!--<a href="https://etrace.cristalcloud.com/Covea-10/11-livraison_fiche.php" title="Ajouter"><o class="fa fa-plus"></o></a>-->
+</h2>
+
+<script>
+	refreshTuiles();
+</script>
+<span id="idTuile">
+	<ul class="livraison_status">
+		<li><a actif="1" id="btnS0" style="background:#00C0EF url('https://etrace.cristalcloud.com/MODULES/Covea/IMAGES/database.png');" href="11-livraison.php"><span id="statut_nb_0">522</span><br>Total</a></li>
+					<li><a actif="1" id="btnS2" style="background:#05a961 url('https://etrace.cristalcloud.com/MODULES/Covea/IMAGES/planifie.png');" href="11-livraison.php?statut=2"><span id="statut_nb_2">1</span><br>
+					<font>Planifié</font>
+				</a></li>
+					<li><a actif="1" id="btnS3" style="background:#597bfb url('https://etrace.cristalcloud.com/MODULES/Covea/IMAGES/encours.png');" href="11-livraison.php?statut=3"><span id="statut_nb_3">0</span><br>
+					<font>En cours</font>
+				</a></li>
+					<li><a actif="1" id="btnS7" style="background:#32e2c7 url('https://etrace.cristalcloud.com/MODULES/Covea/IMAGES/finish.png');" href="11-livraison.php?statut=7"><span id="statut_nb_7">511</span><br>
+					<font>Finalisés</font>
+				</a></li>
+					<li><a actif="1" id="btnS13" style="background:#50e1f2 url('https://etrace.cristalcloud.com/MODULES/Covea/IMAGES/warning.png');" href="11-livraison.php?statut=13"><span id="statut_nb_13">10</span><br>
+					<font>Finalisé erreur</font>
+				</a></li>
+			</ul>
+</span>
+
+<div class="clear"></div>
+
+<table cellpadding="0" cellspacing="0" class="datagrid tablesorter" id="table">
+<thead>
+<tr><th colspan="22">
+	<span style="float:left;">Ajouter un critère de recherche : </span>
+    <form action="11-livraison.php" method="post" style="width:60%;float:left;">
+        <input type="hidden" name="RECH_CRITERE" value="1">
+        <input type="hidden" id="RECH_CRITERE_ID" name="RECH_CRITERE_ID">
+        <select style="float:left;margin-left:1vw;" id="RECH_COLONNE" name="RECH_COLONNE" alt="required_liste" onchange="
+        if(this.value=='PLT_Nom¤Type') {$('#RECH_TYPE_TICKET').show();$('#RECH_VALEUR').hide();} 
+        else if(this.value=='planning.PLA_Debut¤Date planifiée matin') {$('#RECH_TYPE_TICKET').hide();$('#RECH_TYPE').val('matin');} 
+        else if(this.value=='planning.PLA_Debut¤Date planifiée aprés midi') {$('#RECH_TYPE_TICKET').hide();$('#RECH_TYPE').val('am');} 
+        else {$('#RECH_TYPE_TICKET').hide();$('#RECH_VALEUR').show();}
+        " class="cobl">
+            <option></option>
+            <option value="livraison.LIG_ID¤ID ligne">ID ligne</option>
+            <option value="CONCAT(utilisateurs.UTI_Nom, ' ',utilisateurs.UTI_Prenom)¤Attribué à&nbsp;">Attribué à&nbsp;</option>
+            <option value="PLT_Nom¤Type">Type</option>
+            <option value="CONCAT(REPEAT('0', 5 - LENGTH(ADR.ADR_CP)), ADR.ADR_CP)¤CP Localisation">CP Localisation</option>
+            <option value="ADR.ADR_Ville¤Ville Localisation">Ville Localisation</option>
+            <option value="clients.CLI_Nom¤Nom client">Nom client</option>
+            <option value="clients.CLI_Prenom¤Prénom client">Prénom client</option>
+            <option value="LTY_Code¤Typologie">Typologie</option>
+            <option value="LIG_ENTETE¤ENTETE">ENTETE</option>
+            <option value="LIG_NUMERO¤RITM" selected="">RITM</option>
+            <option value="DATE_FORMAT(livraison.USR_DateCreation, '%d/%m/%Y %h:%i:%s')¤Date création">Date création</option>
+            <option value="DATE_FORMAT(planning.PLA_Debut, '%d/%m/%Y %h:%i:%s')¤Date planifiée">Date planifiée</option>
+            <option value="planning.PLA_Debut¤Date planifiée matin">Date planifiée matin</option>
+            <option value="planning.PLA_Debut¤Date planifiée aprés midi">Date planifiée aprés midi</option>
+            <option value="LIG_ARTICLE¤Article COVEA">Article COVEA</option>
+            <option value="ART_Nom¤Article SPIE">Article SPIE</option>
+            <option value="LIG_CODE_BARRE_ANCIEN¤Ancien code barre">Ancien code barre</option>
+            <option value="TECH.TEC_Nom¤Nom Technicien">Nom Technicien</option>
+            <option value="CONCAT(CRE_LOG.UTI_Nom, ' ',CRE_LOG.UTI_Prenom,' ',CRE_LIE_LOG.UTI_Nom, ' ',CRE_LIE_LOG.UTI_Prenom)¤Créateur logistique">Créateur logistique</option>
+            <option value="LIP_Nom¤PUDO">PUDO</option>
+        </select>
+        <select style="float:left;margin-left:1vw;" id="RECH_TYPE" name="RECH_TYPE">
+            <option value="=">est égal</option>
+            <option value="!=">n'est pas égal</option>
+            <option value="%" selected="">contient</option>
+            <option value="%c">commence par</option>
+            <option value="matin">matinée</option>
+            <option value="am">aprés midi</option>
+        </select>
+        <select style="float:left;margin-left:1vw;display:none;" id="RECH_TYPE_TICKET" onchange="$('#RECH_VALEUR').val(this.value);">
+            <option selected=""></option>
+            <option value="Incident">Incident</option>
+            <option value="Demande">Demande</option>
+            <option value="Projet">Projet</option>
+        </select>
+        <input type="text" style="float:left;margin-left:1vw;" id="RECH_VALEUR" name="RECH_VALEUR" alt="required" class="cobl">
+        <button class="fa" title="Ajouter un critère"><o class="fa fa-plus"></o></button>
+        
+        <input type="checkbox" onchange="document.location.href='11-livraison.php?rdv_depasse=' + $(this).is(':checked');"> RDV dépassés&nbsp;&nbsp;&nbsp;
+        <input type="checkbox" onchange="document.location.href='11-livraison.php?archive=' + $(this).is(':checked');"> Archives
+    </form>
+    <script>
+		</script>
+    <button onclick="document.location.href='11-livraison.php?raz_critere=1';" class="fa" style="float:right;" title="RAZ de la recherche"><o class="fa fa-refresh"></o></button>
+</th></tr>
+<tr><th colspan="22" class="criteres">
+			<div onclick="document.location.href='./11-livraison.php?mod_critere=1&amp;';" class="critere_recherche">
+			Nom Technicien contient Aubry			<a title="Supprimer le critère" class="fa fa-close" href="./11-livraison.php?del_critere=1&amp;"></a>
+		</div>
+		</th></tr>
+<tr>
+	<th class=" btn"></th>
+	<th class=" btn" colspan="2">
+    	<a href="javascript:PopUpWorkflow(11,var_ligne_select + '0',0,var_ligne_select_statut,1)" title="Workflow multiligne" style="display:none;" id="btn_action_gen"><o class="fa fa-cog"></o></a>
+                <a href="javascript:PopUpAttribution(11,var_ligne_select + '0')" title="Attribution multiligne" style="display:none;" id="btn_attribu_gen"><o class="fa fa-user"></o></a>
+    </th>
+	<th tri="LIG_ID_O" style="cursor: pointer;">ID</th>
+	<th tri="DateCreation" style="cursor: pointer;">DURÉE</th>
+	<th tri="CONCAT(utilisateurs.UTI_Nom, ' ',utilisateurs.UTI_Prenom)" style="cursor: pointer;">ATTRIBUÉ A</th>
+	<th tri="LIG_STATUT_LOGISTIQUE" style="cursor: pointer;">LOGISTIQUE</th>
+	<th tri="CLI_Nom" style="cursor: pointer;">CLIENT</th>
+	<th tri="LIG_ENTETE" style="cursor: pointer;">ENTETE</th>
+	<th tri="LIG_NUMERO" style="cursor: pointer;">RITM</th>
+	<th tri="ART_Nom" style="cursor: pointer;">ARTICLE</th>
+	<th>CODE BARRE</th>
+	<th tri="Localisation" style="cursor: pointer;">LOCALISATION</th>
+	<th>DÉTAILS</th>
+	<th tri="Planning" style="cursor: pointer;">RDV</th>
+	<th tri="TECH_Nom" style="cursor: pointer;">TECHNICIEN</th>
+	<th>INFOS LIVRAISON</th>
+	<th colspan="5"><a href="https://etrace.cristalcloud.com/MODULES/Covea/livraison_export.php?statut=" title="Export Ecel" target="_blank" style="display:block;float:right;"><o class="fa fa-file-excel-o"></o></a></th>
+</tr>
+</thead>
+<tbody>
+<tr statut="2" type="Swap" class="s2">
+	<td class="c_b btn"><input type="checkbox" id="191137" onclick="multiChoix(this,1)" style="display:inline;"></td>
+	<td><div title="Planifié" style="width:2vw;display:inline-block;float:left;height:2vw;background:#05a961 url('https://etrace.cristalcloud.com/MODULES/Covea/IMAGES/planifie.png') no-repeat center; background-size: 70%;"></div></td>
+	<td class="c_b btn" style="color:#00c0ef;">Inc</td>
+	<td class="c_b btn">191137</td>
+	<td class="c_b tooltip tooltipstered">21-11-2024<br><span style="font-size:0.5vw;color:red;">(22-11-2024 13:06)</span></td>
+	<td class="c_b">
+    	<a href="mailto:mickael.salliot@spie.com" title="Envoyer mail" class="fa fa-envelope" style="padding:0;font-size:0.6vw"></a> 		@_Bascule PROXIMITE LE MANS    </td>
+	<td class="cen">
+    	<br>Commande<br><a href="https://etrace.cristalcloud.com/Stock-18/19-taches_articles.php?ID=415095" target="_blank" style="font-size:0.7vw;">ARNSOC415095</a>    </td>
+	<td class="tooltip tooltipstered">
+    	<a href="mailto:badr.nasser1.ext@groupe-mma.fr" title="Envoyer mail" class="fa fa-envelope" style="padding:0;font-size:0.6vw"></a>     	NASSER (EXT) BADR    </td>
+	<td class="cen">REQ00431667</td>
+	<td class="cen">RITM00560004 (1)</td>
+	<td class="tooltip cen tooltipstered">PORTABLE DELL LATITUDE 5430</td>
+	<td>Ancien : 20061917<br>Nouveau : </td>
+	<td class="tooltip tooltipstered">
+		<img src="https://etrace.cristalcloud.com//IMAGES/puce_verte.png" title="Site Central">&nbsp;C80 - AILE A1/04/402<br>72100 LE MANS    </td>
+	<td class="tooltip tooltipstered"></td>
+	    <td class="tooltip tooltipstered">
+				02-Dec    </td>
+    	<td>
+		<a href="mailto:etienne.aubry@spie.com" title="Envoyer mail" class="fa fa-envelope" style="padding:0;font-size:0.6vw"></a> 		AUBRY Etienne		<br>06 07 67 48 98		    </td>
+	<td class="tooltip tooltipstered">SITE SPIE NAVETTE PROXIMITE - 79 ROUTE DU CHENE - 72230 ARNAGE</td>
+    <td class="c_b btn">
+		        	<a href="javascript:PopUpWorkflow(11,191137,0,2,1)" title="Workflow" style="display:block;"><o class="fa fa-cog"></o></a>
+		    </td>
+	<td class="c_b btn">
+    							            <a href="javascript:PopUpWorkflowStock(11,191137,'SB')" title="Workflow stock - correction" style="display:block;"><o class="fa fa-cubes" style="color:#06C;"></o></a>			
+			                	    </td>
+	<td class="tooltip tooltipstered"><a href="javascript:PopUpSuivi(11,191137)" title="Suivis"><o class="fa fa-circle-o"></o><p style="left:12%;">8</p></a></td>
+	<td class="tooltip tooltipstered"><a href="./Support-146/151-support_fiche.php?RITM=191137" style="color:bladk; padding-left:0;" target="_blank"><o class="fa fa-ticket"></o><p></p></a></td>
+	<td class="c_b btn"><a href="https://etrace.cristalcloud.com/MODULES/Covea/livraison_pop.php?ID=191137&amp;idpage=11" rel="modal:open" title="Modifier"><o class="fa fa-info-circle"></o></a></td>
+</tr>
+<tr statut="7" type="Chronopost" class="s7">
+	<td class="c_b btn"><input type="checkbox" id="191125" onclick="multiChoix(this,1)" style="display:inline;"></td>
+	<td><div title="Finalisés" style="width:2vw;display:inline-block;float:left;height:2vw;background:#32e2c7 url('https://etrace.cristalcloud.com/MODULES/Covea/IMAGES/finish.png') no-repeat center; background-size: 70%;"></div></td>
+	<td class="c_b btn" style="color:#4cae4c;">Dem</td>
+	<td class="c_b btn">191125</td>
+	<td class="c_b tooltip tooltipstered">21-11-2024<br><span style="font-size:0.5vw;color:black;">(27-11-2024 13:50)</span></td>
+	<td class="c_b">
+    	<a href="mailto:mickael.salliot@spie.com" title="Envoyer mail" class="fa fa-envelope" style="padding:0;font-size:0.6vw"></a> 		@_Bascule PROXIMITE LE MANS    </td>
+	<td class="cen">
+    	<br>Sortie de stock<br><a href="https://etrace.cristalcloud.com/Stock-18/19-taches_articles.php?ID=415058" target="_blank" style="font-size:0.7vw;">ARNSOC415058</a>    </td>
+	<td class="tooltip tooltipstered">
+    	<a href="mailto:romain.denis@covea.fr" title="Envoyer mail" class="fa fa-envelope" style="padding:0;font-size:0.6vw"></a>     	DENIS ROMAIN    </td>
+	<td class="cen">REQ00431620</td>
+	<td class="cen">RITM00559952 (1)</td>
+	<td class="tooltip cen tooltipstered">CABLE HDMI 2M/3M - HDMM2M/3M</td>
+	<td>Ancien : <br>Nouveau : </td>
+	<td class="tooltip tooltipstered">
+		<img src="https://etrace.cristalcloud.com//IMAGES/puce_verte.png" title="Site Central">&nbsp;C73 - BAT A/01/*Q2. QUARTIER2<br>72100 LE MANS    </td>
+	<td class="tooltip tooltipstered"></td>
+	    <td class="tooltip tooltipstered">
+				22-Nov    </td>
+    	<td>
+		<a href="mailto:etienne.aubry@spie.com" title="Envoyer mail" class="fa fa-envelope" style="padding:0;font-size:0.6vw"></a> 		AUBRY Etienne		<br>06 07 67 48 98		    </td>
+	<td class="tooltip tooltipstered">SITE SPIE NAVETTE PROXIMITE - 79 ROUTE DU CHENE - 72230 ARNAGE</td>
+    <td class="c_b btn">
+		        	<a href="javascript:PopUpWorkflow(11,191125,0,7,1)" title="Workflow" style="display:block;"><o class="fa fa-cog"></o></a>
+		    </td>
+	<td class="c_b btn">
+    							            			
+			                	    </td>
+	<td class="tooltip tooltipstered"><a href="javascript:PopUpSuivi(11,191125)" title="Suivis"><o class="fa fa-circle-o"></o><p style="left:12%;">7</p></a></td>
+	<td class="tooltip tooltipstered"><a href="./Support-146/151-support_fiche.php?RITM=191125" style="color:bladk; padding-left:0;" target="_blank"><o class="fa fa-ticket"></o><p></p></a></td>
+	<td class="c_b btn"><a href="https://etrace.cristalcloud.com/MODULES/Covea/livraison_pop.php?ID=191125&amp;idpage=11" rel="modal:open" title="Modifier"><o class="fa fa-info-circle"></o></a></td>
+</tr>
+<tr statut="7" type="Installation" class="s7">
+	<td class="c_b btn"><input type="checkbox" id="191094" onclick="multiChoix(this,1)" style="display:inline;"></td>
+	<td><div title="Finalisés" style="width:2vw;display:inline-block;float:left;height:2vw;background:#32e2c7 url('https://etrace.cristalcloud.com/MODULES/Covea/IMAGES/finish.png') no-repeat center; background-size: 70%;"></div></td>
+	<td class="c_b btn" style="color:#4cae4c;">Dem</td>
+	<td class="c_b btn">191094</td>
+	<td class="c_b tooltip tooltipstered">21-11-2024<br><span style="font-size:0.5vw;color:black;">(27-11-2024 12:25)</span></td>
+	<td class="c_b">
+    	<a href="mailto:mickael.salliot@spie.com" title="Envoyer mail" class="fa fa-envelope" style="padding:0;font-size:0.6vw"></a> 		@_Bascule PROXIMITE LE MANS    </td>
+	<td class="cen">
+    	<br>Sortie de stock<br><a href="https://etrace.cristalcloud.com/Stock-18/19-taches_articles.php?ID=415043" target="_blank" style="font-size:0.7vw;">ARNSOC415043</a>    </td>
+	<td class="tooltip tooltipstered">
+    	<a href="mailto:camille.mercurin@groupe-mma.fr" title="Envoyer mail" class="fa fa-envelope" style="padding:0;font-size:0.6vw"></a>     	MERCURIN CAMILLE    </td>
+	<td class="cen">REQ00431618</td>
+	<td class="cen">RITM00559949 (3)</td>
+	<td class="tooltip cen tooltipstered">ECRAN 22p DELL PROFESSIONAL 2222H</td>
+	<td>Ancien : <br>Nouveau : 24014658</td>
+	<td class="tooltip tooltipstered">
+		<img src="https://etrace.cristalcloud.com//IMAGES/puce_verte.png" title="Site Central">&nbsp;C82 - AILE B7/04/402<br>72100 LE MANS    </td>
+	<td class="tooltip tooltipstered"></td>
+	    <td class="tooltip tooltipstered">
+				22-Nov    </td>
+    	<td>
+		<a href="mailto:etienne.aubry@spie.com" title="Envoyer mail" class="fa fa-envelope" style="padding:0;font-size:0.6vw"></a> 		AUBRY Etienne		<br>06 07 67 48 98		    </td>
+	<td class="tooltip tooltipstered">SITE SPIE NAVETTE PROXIMITE - 79 ROUTE DU CHENE - 72230 ARNAGE</td>
+    <td class="c_b btn">
+		        	<a href="javascript:PopUpWorkflow(11,191094,0,7,1)" title="Workflow" style="display:block;"><o class="fa fa-cog"></o></a>
+		    </td>
+	<td class="c_b btn">
+    							            			
+			<a href="javascript:PopUpWorkflowStock(11,191094,'R')" title="Workflow stock" style="display:block;"><o class="fa fa-cubes" style="color:#0C0;"></o></a>                	    </td>
+	<td class="tooltip tooltipstered"><a href="javascript:PopUpSuivi(11,191094)" title="Suivis"><o class="fa fa-circle-o"></o><p style="left:12%;">8</p></a></td>
+	<td class="tooltip tooltipstered"><a href="./Support-146/151-support_fiche.php?RITM=191094" style="color:bladk; padding-left:0;" target="_blank"><o class="fa fa-ticket"></o><p></p></a></td>
+	<td class="c_b btn"><a href="https://etrace.cristalcloud.com/MODULES/Covea/livraison_pop.php?ID=191094&amp;idpage=11" rel="modal:open" title="Modifier"><o class="fa fa-info-circle"></o></a></td>
+</tr>
+<tr statut="7" type="Installation" class="s7">
+	<td class="c_b btn"><input type="checkbox" id="191093" onclick="multiChoix(this,1)" style="display:inline;"></td>
+	<td><div title="Finalisés" style="width:2vw;display:inline-block;float:left;height:2vw;background:#32e2c7 url('https://etrace.cristalcloud.com/MODULES/Covea/IMAGES/finish.png') no-repeat center; background-size: 70%;"></div></td>
+	<td class="c_b btn" style="color:#4cae4c;">Dem</td>
+	<td class="c_b btn">191093</td>
+	<td class="c_b tooltip tooltipstered">21-11-2024<br><span style="font-size:0.5vw;color:black;">(27-11-2024 12:25)</span></td>
+	<td class="c_b">
+    	<a href="mailto:mickael.salliot@spie.com" title="Envoyer mail" class="fa fa-envelope" style="padding:0;font-size:0.6vw"></a> 		@_Bascule PROXIMITE LE MANS    </td>
+	<td class="cen">
+    	<br>Sortie de stock<br><a href="https://etrace.cristalcloud.com/Stock-18/19-taches_articles.php?ID=415043" target="_blank" style="font-size:0.7vw;">ARNSOC415043</a>    </td>
+	<td class="tooltip tooltipstered">
+    	<a href="mailto:camille.mercurin@groupe-mma.fr" title="Envoyer mail" class="fa fa-envelope" style="padding:0;font-size:0.6vw"></a>     	MERCURIN CAMILLE    </td>
+	<td class="cen">REQ00431618</td>
+	<td class="cen">RITM00559950 (3)</td>
+	<td class="tooltip cen tooltipstered">ECRAN 22p DELL PROFESSIONAL 2222H</td>
+	<td>Ancien : <br>Nouveau : 24014553</td>
+	<td class="tooltip tooltipstered">
+		<img src="https://etrace.cristalcloud.com//IMAGES/puce_verte.png" title="Site Central">&nbsp;C82 - AILE B7/04/402<br>72100 LE MANS    </td>
+	<td class="tooltip tooltipstered"></td>
+	    <td class="tooltip tooltipstered">
+				22-Nov    </td>
+    	<td>
+		<a href="mailto:etienne.aubry@spie.com" title="Envoyer mail" class="fa fa-envelope" style="padding:0;font-size:0.6vw"></a> 		AUBRY Etienne		<br>06 07 67 48 98		    </td>
+	<td class="tooltip tooltipstered">SITE SPIE NAVETTE PROXIMITE - 79 ROUTE DU CHENE - 72230 ARNAGE</td>
+    <td class="c_b btn">
+		        	<a href="javascript:PopUpWorkflow(11,191093,0,7,1)" title="Workflow" style="display:block;"><o class="fa fa-cog"></o></a>
+		    </td>
+	<td class="c_b btn">
+    							            			
+			<a href="javascript:PopUpWorkflowStock(11,191093,'R')" title="Workflow stock" style="display:block;"><o class="fa fa-cubes" style="color:#0C0;"></o></a>                	    </td>
+	<td class="tooltip tooltipstered"><a href="javascript:PopUpSuivi(11,191093)" title="Suivis"><o class="fa fa-circle-o"></o><p style="left:12%;">8</p></a></td>
+	<td class="tooltip tooltipstered"><a href="./Support-146/151-support_fiche.php?RITM=191093" style="color:bladk; padding-left:0;" target="_blank"><o class="fa fa-ticket"></o><p></p></a></td>
+	<td class="c_b btn"><a href="https://etrace.cristalcloud.com/MODULES/Covea/livraison_pop.php?ID=191093&amp;idpage=11" rel="modal:open" title="Modifier"><o class="fa fa-info-circle"></o></a></td>
+</tr>
+<tr statut="7" type="Chronopost" class="s7">
+	<td class="c_b btn"><input type="checkbox" id="191092" onclick="multiChoix(this,1)" style="display:inline;"></td>
+	<td><div title="Finalisés" style="width:2vw;display:inline-block;float:left;height:2vw;background:#32e2c7 url('https://etrace.cristalcloud.com/MODULES/Covea/IMAGES/finish.png') no-repeat center; background-size: 70%;"></div></td>
+	<td class="c_b btn" style="color:#4cae4c;">Dem</td>
+	<td class="c_b btn">191092</td>
+	<td class="c_b tooltip tooltipstered">21-11-2024<br><span style="font-size:0.5vw;color:black;">(27-11-2024 12:25)</span></td>
+	<td class="c_b">
+    	<a href="mailto:mickael.salliot@spie.com" title="Envoyer mail" class="fa fa-envelope" style="padding:0;font-size:0.6vw"></a> 		@_Bascule PROXIMITE LE MANS    </td>
+	<td class="cen">
+    	<br>Sortie de stock<br><a href="https://etrace.cristalcloud.com/Stock-18/19-taches_articles.php?ID=415044" target="_blank" style="font-size:0.7vw;">ARNSOC415044</a>    </td>
+	<td class="tooltip tooltipstered">
+    	<a href="mailto:camille.mercurin@groupe-mma.fr" title="Envoyer mail" class="fa fa-envelope" style="padding:0;font-size:0.6vw"></a>     	MERCURIN CAMILLE    </td>
+	<td class="cen">REQ00431618</td>
+	<td class="cen">RITM00559948 (3)</td>
+	<td class="tooltip cen tooltipstered">CASQUE SENNHEISER SC665 USB (BINAURAL)</td>
+	<td>Ancien : <br>Nouveau : </td>
+	<td class="tooltip tooltipstered">
+		<img src="https://etrace.cristalcloud.com//IMAGES/puce_verte.png" title="Site Central">&nbsp;C82 - AILE B7/04/402<br>72100 LE MANS    </td>
+	<td class="tooltip tooltipstered"></td>
+	    <td class="tooltip tooltipstered">
+				22-Nov    </td>
+    	<td>
+		<a href="mailto:etienne.aubry@spie.com" title="Envoyer mail" class="fa fa-envelope" style="padding:0;font-size:0.6vw"></a> 		AUBRY Etienne		<br>06 07 67 48 98		    </td>
+	<td class="tooltip tooltipstered">SITE SPIE NAVETTE PROXIMITE - 79 ROUTE DU CHENE - 72230 ARNAGE</td>
+    <td class="c_b btn">
+		        	<a href="javascript:PopUpWorkflow(11,191092,0,7,1)" title="Workflow" style="display:block;"><o class="fa fa-cog"></o></a>
+		    </td>
+	<td class="c_b btn">
+    							            			
+			                	    </td>
+	<td class="tooltip tooltipstered"><a href="javascript:PopUpSuivi(11,191092)" title="Suivis"><o class="fa fa-circle-o"></o><p style="left:12%;">7</p></a></td>
+	<td class="tooltip tooltipstered"><a href="./Support-146/151-support_fiche.php?RITM=191092" style="color:bladk; padding-left:0;" target="_blank"><o class="fa fa-ticket"></o><p></p></a></td>
+	<td class="c_b btn"><a href="https://etrace.cristalcloud.com/MODULES/Covea/livraison_pop.php?ID=191092&amp;idpage=11" rel="modal:open" title="Modifier"><o class="fa fa-info-circle"></o></a></td>
+</tr>
+<tr statut="7" type="Retraits" class="s7">
+	<td class="c_b btn"><input type="checkbox" id="190914" onclick="multiChoix(this,1)" style="display:inline;"></td>
+	<td><div title="Finalisés" style="width:2vw;display:inline-block;float:left;height:2vw;background:#32e2c7 url('https://etrace.cristalcloud.com/MODULES/Covea/IMAGES/finish.png') no-repeat center; background-size: 70%;"></div></td>
+	<td class="c_b btn" style="color:#4cae4c;">Dem</td>
+	<td class="c_b btn">190914</td>
+	<td class="c_b tooltip tooltipstered">19-11-2024<br><span style="font-size:0.5vw;color:black;">(25-11-2024 15:52)</span></td>
+	<td class="c_b">
+    	<a href="mailto:mickael.salliot@spie.com" title="Envoyer mail" class="fa fa-envelope" style="padding:0;font-size:0.6vw"></a> 		@_Bascule PROXIMITE LE MANS    </td>
+	<td class="cen">
+    	    </td>
+	<td class="tooltip tooltipstered">
+    	<a href="mailto:stephanie.henanff@groupe-mma.fr" title="Envoyer mail" class="fa fa-envelope" style="padding:0;font-size:0.6vw"></a>     	HENANFF STEPHANIE    </td>
+	<td class="cen">REQ00430931</td>
+	<td class="cen">RITM00559177 (2)</td>
+	<td class="tooltip cen tooltipstered">Restitution de matériel(s)</td>
+	<td>Ancien : <br>Nouveau : </td>
+	<td class="tooltip tooltipstered">
+		<img src="https://etrace.cristalcloud.com//IMAGES/puce_verte.png" title="Site Central">&nbsp;C05 - AILE E1-E2/02/E1-240<br>72100 LE MANS    </td>
+	<td class="tooltip tooltipstered"></td>
+	    <td class="tooltip tooltipstered">
+				22-Nov    </td>
+    	<td>
+		<a href="mailto:etienne.aubry@spie.com" title="Envoyer mail" class="fa fa-envelope" style="padding:0;font-size:0.6vw"></a> 		AUBRY Etienne		<br>06 07 67 48 98		    </td>
+	<td class="tooltip tooltipstered"></td>
+    <td class="c_b btn">
+		        	<a href="javascript:PopUpWorkflow(11,190914,0,7,1)" title="Workflow" style="display:block;"><o class="fa fa-cog"></o></a>
+		    </td>
+	<td class="c_b btn">
+    							            			
+			<a href="javascript:PopUpWorkflowStock(11,190914,'R')" title="Workflow stock" style="display:block;"><o class="fa fa-cubes" style="color:#0C0;"></o></a>                	    </td>
+	<td class="tooltip tooltipstered"><a href="javascript:PopUpSuivi(11,190914)" title="Suivis"><o class="fa fa-circle-o"></o><p style="left:12%;">6</p></a></td>
+	<td class="tooltip tooltipstered"><a href="./Support-146/151-support_fiche.php?RITM=190914" style="color:bladk; padding-left:0;" target="_blank"><o class="fa fa-ticket"></o><p></p></a></td>
+	<td class="c_b btn"><a href="https://etrace.cristalcloud.com/MODULES/Covea/livraison_pop.php?ID=190914&amp;idpage=11" rel="modal:open" title="Modifier"><o class="fa fa-info-circle"></o></a></td>
+</tr>
+<tr statut="7" type="Retraits" class="s7">
+	<td class="c_b btn"><input type="checkbox" id="190911" onclick="multiChoix(this,1)" style="display:inline;"></td>
+	<td><div title="Finalisés" style="width:2vw;display:inline-block;float:left;height:2vw;background:#32e2c7 url('https://etrace.cristalcloud.com/MODULES/Covea/IMAGES/finish.png') no-repeat center; background-size: 70%;"></div></td>
+	<td class="c_b btn" style="color:#4cae4c;">Dem</td>
+	<td class="c_b btn">190911</td>
+	<td class="c_b tooltip tooltipstered">19-11-2024<br><span style="font-size:0.5vw;color:black;">(25-11-2024 15:49)</span></td>
+	<td class="c_b">
+    	<a href="mailto:mickael.salliot@spie.com" title="Envoyer mail" class="fa fa-envelope" style="padding:0;font-size:0.6vw"></a> 		@_Bascule PROXIMITE LE MANS    </td>
+	<td class="cen">
+    	<br>Sortie de stock<br><a href="https://etrace.cristalcloud.com/Stock-18/19-taches_articles.php?ID=414789" target="_blank" style="font-size:0.7vw;">ARNSOC414789</a>    </td>
+	<td class="tooltip tooltipstered">
+    	<a href="mailto:stephanie.henanff@groupe-mma.fr" title="Envoyer mail" class="fa fa-envelope" style="padding:0;font-size:0.6vw"></a>     	HENANFF STEPHANIE    </td>
+	<td class="cen">REQ00430931</td>
+	<td class="cen">RITM00559176 (2)</td>
+	<td class="tooltip cen tooltipstered">CARTON POUR RETRAIT DE MATERIELS</td>
+	<td>Ancien : <br>Nouveau : </td>
+	<td class="tooltip tooltipstered">
+		<img src="https://etrace.cristalcloud.com//IMAGES/puce_verte.png" title="Site Central">&nbsp;C05 - AILE E1-E2/02/E1-240<br>72100 LE MANS    </td>
+	<td class="tooltip tooltipstered"></td>
+	    <td class="tooltip tooltipstered">
+				22-Nov    </td>
+    	<td>
+		<a href="mailto:etienne.aubry@spie.com" title="Envoyer mail" class="fa fa-envelope" style="padding:0;font-size:0.6vw"></a> 		AUBRY Etienne		<br>06 07 67 48 98		    </td>
+	<td class="tooltip tooltipstered">SITE SPIE NAVETTE PROXIMITE - 79 ROUTE DU CHENE - 72230 ARNAGE</td>
+    <td class="c_b btn">
+		        	<a href="javascript:PopUpWorkflow(11,190911,0,7,1)" title="Workflow" style="display:block;"><o class="fa fa-cog"></o></a>
+		    </td>
+	<td class="c_b btn">
+    							            			
+			<a href="javascript:PopUpWorkflowStock(11,190911,'R')" title="Workflow stock" style="display:block;"><o class="fa fa-cubes" style="color:#0C0;"></o></a>                	    </td>
+	<td class="tooltip tooltipstered"><a href="javascript:PopUpSuivi(11,190911)" title="Suivis"><o class="fa fa-circle-o"></o><p style="left:12%;">7</p></a></td>
+	<td class="tooltip tooltipstered"><a href="./Support-146/151-support_fiche.php?RITM=190911" style="color:bladk; padding-left:0;" target="_blank"><o class="fa fa-ticket"></o><p></p></a></td>
+	<td class="c_b btn"><a href="https://etrace.cristalcloud.com/MODULES/Covea/livraison_pop.php?ID=190911&amp;idpage=11" rel="modal:open" title="Modifier"><o class="fa fa-info-circle"></o></a></td>
+</tr>
+<tr statut="7" type="Retraits" class="s7">
+	<td class="c_b btn"><input type="checkbox" id="190910" onclick="multiChoix(this,1)" style="display:inline;"></td>
+	<td><div title="Finalisés" style="width:2vw;display:inline-block;float:left;height:2vw;background:#32e2c7 url('https://etrace.cristalcloud.com/MODULES/Covea/IMAGES/finish.png') no-repeat center; background-size: 70%;"></div></td>
+	<td class="c_b btn" style="color:#4cae4c;">Dem</td>
+	<td class="c_b btn">190910</td>
+	<td class="c_b tooltip tooltipstered">19-11-2024<br><span style="font-size:0.5vw;color:black;">(25-11-2024 15:46)</span></td>
+	<td class="c_b">
+    	<a href="mailto:mickael.salliot@spie.com" title="Envoyer mail" class="fa fa-envelope" style="padding:0;font-size:0.6vw"></a> 		@_Bascule PROXIMITE LE MANS    </td>
+	<td class="cen">
+    	    </td>
+	<td class="tooltip tooltipstered">
+    	<a href="mailto:stephanie.henanff@groupe-mma.fr" title="Envoyer mail" class="fa fa-envelope" style="padding:0;font-size:0.6vw"></a>     	HENANFF STEPHANIE    </td>
+	<td class="cen">REQ00430933</td>
+	<td class="cen">RITM00559181 (2)</td>
+	<td class="tooltip cen tooltipstered">Restitution de matériel(s)</td>
+	<td>Ancien : <br>Nouveau : </td>
+	<td class="tooltip tooltipstered">
+		<img src="https://etrace.cristalcloud.com//IMAGES/puce_verte.png" title="Site Central">&nbsp;C05 - AILE E1-E2/00/E2-065<br>72100 LE MANS    </td>
+	<td class="tooltip tooltipstered"></td>
+	    <td class="tooltip tooltipstered">
+				22-Nov    </td>
+    	<td>
+		<a href="mailto:etienne.aubry@spie.com" title="Envoyer mail" class="fa fa-envelope" style="padding:0;font-size:0.6vw"></a> 		AUBRY Etienne		<br>06 07 67 48 98		    </td>
+	<td class="tooltip tooltipstered"></td>
+    <td class="c_b btn">
+		        	<a href="javascript:PopUpWorkflow(11,190910,0,7,1)" title="Workflow" style="display:block;"><o class="fa fa-cog"></o></a>
+		    </td>
+	<td class="c_b btn">
+    							            			
+			<a href="javascript:PopUpWorkflowStock(11,190910,'R')" title="Workflow stock" style="display:block;"><o class="fa fa-cubes" style="color:#0C0;"></o></a>                	    </td>
+	<td class="tooltip tooltipstered"><a href="javascript:PopUpSuivi(11,190910)" title="Suivis"><o class="fa fa-circle-o"></o><p style="left:12%;">6</p></a></td>
+	<td class="tooltip tooltipstered"><a href="./Support-146/151-support_fiche.php?RITM=190910" style="color:bladk; padding-left:0;" target="_blank"><o class="fa fa-ticket"></o><p></p></a></td>
+	<td class="c_b btn"><a href="https://etrace.cristalcloud.com/MODULES/Covea/livraison_pop.php?ID=190910&amp;idpage=11" rel="modal:open" title="Modifier"><o class="fa fa-info-circle"></o></a></td>
+</tr>
+<tr statut="7" type="Retraits" class="s7">
+	<td class="c_b btn"><input type="checkbox" id="190908" onclick="multiChoix(this,1)" style="display:inline;"></td>
+	<td><div title="Finalisés" style="width:2vw;display:inline-block;float:left;height:2vw;background:#32e2c7 url('https://etrace.cristalcloud.com/MODULES/Covea/IMAGES/finish.png') no-repeat center; background-size: 70%;"></div></td>
+	<td class="c_b btn" style="color:#4cae4c;">Dem</td>
+	<td class="c_b btn">190908</td>
+	<td class="c_b tooltip tooltipstered">19-11-2024<br><span style="font-size:0.5vw;color:black;">(25-11-2024 15:41)</span></td>
+	<td class="c_b">
+    	<a href="mailto:mickael.salliot@spie.com" title="Envoyer mail" class="fa fa-envelope" style="padding:0;font-size:0.6vw"></a> 		@_Bascule PROXIMITE LE MANS    </td>
+	<td class="cen">
+    	<br>Sortie de stock<br><a href="https://etrace.cristalcloud.com/Stock-18/19-taches_articles.php?ID=414788" target="_blank" style="font-size:0.7vw;">ARNSOC414788</a>    </td>
+	<td class="tooltip tooltipstered">
+    	<a href="mailto:stephanie.henanff@groupe-mma.fr" title="Envoyer mail" class="fa fa-envelope" style="padding:0;font-size:0.6vw"></a>     	HENANFF STEPHANIE    </td>
+	<td class="cen">REQ00430933</td>
+	<td class="cen">RITM00559180 (2)</td>
+	<td class="tooltip cen tooltipstered">CARTON POUR RETRAIT DE MATERIELS</td>
+	<td>Ancien : <br>Nouveau : </td>
+	<td class="tooltip tooltipstered">
+		<img src="https://etrace.cristalcloud.com//IMAGES/puce_verte.png" title="Site Central">&nbsp;C05 - AILE E1-E2/00/E2-065<br>72100 LE MANS    </td>
+	<td class="tooltip tooltipstered"></td>
+	    <td class="tooltip tooltipstered">
+				22-Nov    </td>
+    	<td>
+		<a href="mailto:etienne.aubry@spie.com" title="Envoyer mail" class="fa fa-envelope" style="padding:0;font-size:0.6vw"></a> 		AUBRY Etienne		<br>06 07 67 48 98		    </td>
+	<td class="tooltip tooltipstered">SITE SPIE NAVETTE PROXIMITE - 79 ROUTE DU CHENE - 72230 ARNAGE</td>
+    <td class="c_b btn">
+		        	<a href="javascript:PopUpWorkflow(11,190908,0,7,1)" title="Workflow" style="display:block;"><o class="fa fa-cog"></o></a>
+		    </td>
+	<td class="c_b btn">
+    							            			
+			<a href="javascript:PopUpWorkflowStock(11,190908,'R')" title="Workflow stock" style="display:block;"><o class="fa fa-cubes" style="color:#0C0;"></o></a>                	    </td>
+	<td class="tooltip tooltipstered"><a href="javascript:PopUpSuivi(11,190908)" title="Suivis"><o class="fa fa-circle-o"></o><p style="left:12%;">7</p></a></td>
+	<td class="tooltip tooltipstered"><a href="./Support-146/151-support_fiche.php?RITM=190908" style="color:bladk; padding-left:0;" target="_blank"><o class="fa fa-ticket"></o><p></p></a></td>
+	<td class="c_b btn"><a href="https://etrace.cristalcloud.com/MODULES/Covea/livraison_pop.php?ID=190908&amp;idpage=11" rel="modal:open" title="Modifier"><o class="fa fa-info-circle"></o></a></td>
+</tr>
+<tr statut="7" type="Chronopost" class="s7">
+	<td class="c_b btn"><input type="checkbox" id="190905" onclick="multiChoix(this,1)" style="display:inline;"></td>
+	<td><div title="Finalisés" style="width:2vw;display:inline-block;float:left;height:2vw;background:#32e2c7 url('https://etrace.cristalcloud.com/MODULES/Covea/IMAGES/finish.png') no-repeat center; background-size: 70%;"></div></td>
+	<td class="c_b btn" style="color:#4cae4c;">Dem</td>
+	<td class="c_b btn">190905</td>
+	<td class="c_b tooltip tooltipstered">19-11-2024<br><span style="font-size:0.5vw;color:black;">(25-11-2024 15:30)</span></td>
+	<td class="c_b">
+    	<a href="mailto:mickael.salliot@spie.com" title="Envoyer mail" class="fa fa-envelope" style="padding:0;font-size:0.6vw"></a> 		@_Bascule PROXIMITE LE MANS    </td>
+	<td class="cen">
+    	<br>Sortie de stock<br><a href="https://etrace.cristalcloud.com/Stock-18/19-taches_articles.php?ID=414204" target="_blank" style="font-size:0.7vw;">ARNSOC414204</a>    </td>
+	<td class="tooltip tooltipstered">
+    	<a href="mailto:marine.taillepied@groupe-mma.fr" title="Envoyer mail" class="fa fa-envelope" style="padding:0;font-size:0.6vw"></a>     	TAILLEPIED MARINE    </td>
+	<td class="cen">REQ00430966</td>
+	<td class="cen">RITM00559216 (1)</td>
+	<td class="tooltip cen tooltipstered">CASQUE JABRA ENGAGE 65 DUO</td>
+	<td>Ancien : <br>Nouveau : </td>
+	<td class="tooltip tooltipstered">
+		<img src="https://etrace.cristalcloud.com//IMAGES/puce_verte.png" title="Site Central">&nbsp;NOVA 5/04/401<br>72000 LE MANS    </td>
+	<td class="tooltip tooltipstered"></td>
+	    <td class="tooltip tooltipstered">
+				21-Nov    </td>
+    	<td>
+		<a href="mailto:etienne.aubry@spie.com" title="Envoyer mail" class="fa fa-envelope" style="padding:0;font-size:0.6vw"></a> 		AUBRY Etienne		<br>06 07 67 48 98		    </td>
+	<td class="tooltip tooltipstered">SITE SPIE NAVETTE PROXIMITE - 79 ROUTE DU CHENE - 72230 ARNAGE</td>
+    <td class="c_b btn">
+		        	<a href="javascript:PopUpWorkflow(11,190905,0,7,1)" title="Workflow" style="display:block;"><o class="fa fa-cog"></o></a>
+		    </td>
+	<td class="c_b btn">
+    							            			
+			                	    </td>
+	<td class="tooltip tooltipstered"><a href="javascript:PopUpSuivi(11,190905)" title="Suivis"><o class="fa fa-circle-o"></o><p style="left:12%;">7</p></a></td>
+	<td class="tooltip tooltipstered"><a href="./Support-146/151-support_fiche.php?RITM=190905" style="color:bladk; padding-left:0;" target="_blank"><o class="fa fa-ticket"></o><p></p></a></td>
+	<td class="c_b btn"><a href="https://etrace.cristalcloud.com/MODULES/Covea/livraison_pop.php?ID=190905&amp;idpage=11" rel="modal:open" title="Modifier"><o class="fa fa-info-circle"></o></a></td>
+</tr>
+</tbody>
+        <tfoot>
+        <tr>
+        <td colspan="22">
+                <div id="table_pager" class="pager">
+          <form>
+            <a href="https://etrace.cristalcloud.com/Covea-10/11-livraison.php?&amp;ritm=RITM00559180"><img src="https://etrace.cristalcloud.com/IMAGES/first.png" class="first"></a>
+            <a href="https://etrace.cristalcloud.com/Covea-10/11-livraison.php?&amp;ritm=RITM00559180&amp;gvpage=1"><img src="https://etrace.cristalcloud.com/IMAGES/prev.png" class="prev"></a>
+
+            <span class="pagedisplay">1 – 10 / 522</span>
+            
+            <a href="https://etrace.cristalcloud.com/Covea-10/11-livraison.php?&amp;ritm=RITM00559180&amp;gvpage=2"><img src="https://etrace.cristalcloud.com/IMAGES/next.png" class="next"></a>
+            <a href="https://etrace.cristalcloud.com/Covea-10/11-livraison.php?&amp;ritm=RITM00559180&amp;gvpage=53"><img src="https://etrace.cristalcloud.com/IMAGES/last.png" class="last"></a>
+           
+            <select class="pagesize" onchange="document.location.href='https://etrace.cristalcloud.com/Covea-10/11-livraison.php?&amp;ritm=RITM00559180&amp;gvpage=1&amp;pagination=' + this.value;">
+              <option selected="" value="10">10</option>
+              <option value="20">20</option>
+              <option value="30">30</option>
+              <option value="40">40</option>
+              <option value="100">100</option>
+              <option value="1000">1000</option>
+                          </select>
+          </form>
+        </div>
+        </td>
+        </tr>
+        </tfoot>
+		</table></page>
+
+<div class="txt_cookie" style="display:none;">
+	eTRACE souhaite vous offrir la meilleure expérience possible sur son site. En poursuivant votre navigation, vous acceptez l’utilisation des cookies afin de se connecter automatiquement.
+	<button onclick="cookieCNIL();">J'accepte</button>
+</div>
+
+
+
+<script id="define-custom-element-wtd-root" src="chrome-extension://emnoomldgleagdjapdeckpmebokijail/src/scripts/injected/defineCustomElementsInjected.js" data-params="{&quot;elementName&quot;:&quot;wtd-root&quot;,&quot;eventName&quot;:&quot;customElements.defined&quot;,&quot;isShadowRoot&quot;:true}"></script><wtd-root id="cashback"></wtd-root><script id="define-custom-element-wtd-root" src="chrome-extension://emnoomldgleagdjapdeckpmebokijail/src/scripts/injected/defineCustomElementsInjected.js" data-params="{&quot;elementName&quot;:&quot;wtd-root&quot;,&quot;eventName&quot;:&quot;customElements.defined&quot;,&quot;isShadowRoot&quot;:true}"></script><script id="define-custom-element-wtd-div" src="chrome-extension://emnoomldgleagdjapdeckpmebokijail/src/scripts/injected/defineCustomElementsInjected.js" data-params="{&quot;elementName&quot;:&quot;wtd-div&quot;,&quot;eventName&quot;:&quot;customElements.defined&quot;,&quot;isShadowRoot&quot;:false}"></script><wtd-div id="wanteeedContainer" style="position: fixed; display: block; top: 0px; right: 0px; z-index: 2147483647;"><wtd-root id="comparator"></wtd-root><iframe id="wanteeedPanel" data-version="2.113.0" allowtransparency="true" style="background-color: rgb(255, 255, 255); border: none; border-radius: 3px; box-shadow: rgb(181, 181, 181) 1px 1px 3px 2px; clip: auto; display: none; margin-left: auto; margin-right: 12px; margin-top: 12px; position: relative; z-index: 2147483647; height: 1px; width: 1px;"></iframe></wtd-div><script id="define-custom-element-wtd-root" src="chrome-extension://emnoomldgleagdjapdeckpmebokijail/src/scripts/injected/defineCustomElementsInjected.js" data-params="{&quot;elementName&quot;:&quot;wtd-root&quot;,&quot;eventName&quot;:&quot;customElements.defined&quot;,&quot;isShadowRoot&quot;:true}"></script></body></html>
