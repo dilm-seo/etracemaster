@@ -136,7 +136,7 @@ export default function App() {
               className="flex items-center space-x-2 px-4 py-2 rounded-lg bg-violet-600 hover:bg-violet-500 text-white transition-colors duration-200"
             >
               <ExternalLinkIcon className="h-4 w-4" />
-              <span>Accéder à eTRACE</span>
+              <span>eTRACE</span>
             </a>
           </div>
         </div>
