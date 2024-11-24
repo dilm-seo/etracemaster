@@ -66,23 +66,23 @@
 
 @keyframes fadeColors {
     0% {
-        background-color: black; /* Gris sombre initial */
+        background-color: #4B0082; /* Gris sombre initial */
     }
     25% {
-        background-color: darkblue; /* Bleu */
+        background-color: #5E005E; /* Bleu */
     }
     50% {
-        background-color: black; /* Vert émeraude */
+        background-color: #3A006F; /* Vert émeraude */
     }
     75% {
-        background-color: darkblue; /* gris clair */
+        background-color: #2E0854; /* gris clair */
     }
     100% {
-        background-color: black; /* Retour au gris sombre */
+        background-color: #4B0082; /* Retour au gris sombre */
     }
 }
 
 .flex.items-center.justify-between.bg-slate-700\/30.px-3.py-2.rounded-lg {
-    animation: fadeColors 12s infinite;
-    transition: background-color 3s ease-in-out;
+    animation: fadeColors 16s infinite;
+    transition: background-color 4s ease-in-out;
 }
