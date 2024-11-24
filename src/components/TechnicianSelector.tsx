@@ -85,7 +85,7 @@ export function TechnicianSelector({ onSelect, loading, progress }: TechnicianSe
           >
             <div className="absolute inset-0 bg-gradient-to-r from-violet-400/20 to-fuchsia-400/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             <Download className="h-5 w-5 transform group-hover:translate-y-0.5 transition-transform duration-200" />
-            <span className="relative">Télécharger le planning complet</span>
+            <span className="relative">Télécharger mon planning complet</span>
           </a>
 
           <div className="flex items-center space-x-2 text-slate-300 text-sm justify-center bg-slate-700/30 px-4 py-3 rounded-lg">
