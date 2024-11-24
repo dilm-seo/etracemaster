@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Calendar, MapPin, User, Wrench, Clock, Truck, Phone, ChevronDown, ChevronUp, AlertCircle, ExternalLink, Ticket, Copy, Check, Barcode, Share2, Mail } from 'lucide-react';
 import { parseAppointmentTimes, formatDate, extractPhoneNumber } from '../utils/dateUtils';
+import { StatusBadge } from './StatusBadge';
 
 interface AppointmentCardProps {
   appointment: any;
@@ -16,7 +17,8 @@ export function AppointmentCard({ appointment, animate = false, delay = 0 }: App
   const [startTime, endTime] = parseAppointmentTimes(appointment['RDV'] || '');
   const phoneNumber = extractPhoneNumber(appointment['JUSTIFICATION']);
   const isUrgent = appointment['JUSTIFICATION']?.toLowerCase().includes('urgent');
-  const ritm = appointment['RITM'] || appointment['ENTETE'] || 'N/A';
+  const ritm = appointment['RITM'] || appointment['ENTETE'] || '';
+  const status = appointment['STATUT'] || 'En attente';
 
   const oldBarcode = 
     appointment['CODE BARRE ANCIEN'] || 
@@ -100,26 +102,32 @@ ${newBarcode ? `\nNouveau code-barre: ${newBarcode}` : ''}
         animationFillMode: 'forwards'
       }}
     >
-      <div className={`px-4 py-3 text-white flex flex-wrap items-center justify-between gap-2
+      <div className={`p-4 text-white flex flex-col gap-3
         ${isUrgent 
           ? 'bg-gradient-to-r from-rose-500 to-pink-600' 
           : 'bg-gradient-to-r from-violet-600 to-indigo-600'}`}
       >
-        <div className="flex items-center space-x-2">
-          <Calendar className="h-5 w-5" />
-          <span className="font-medium">{formatDate(appointment['RDV']?.split(' ')[0] || '')}</span>
+        <div className="flex items-center justify-between gap-2">
+          <div className="flex items-center space-x-2">
+            <Calendar className="h-5 w-5" />
+            <span className="font-medium">{formatDate(appointment['RDV']?.split(' ')[0] || '')}</span>
+          </div>
+          <div className="flex items-center space-x-2">
+            <Clock className="h-4 w-4" />
+            <span className="font-medium">{startTime}</span>
+            <span className="text-white/60">→</span>
+            <span className="font-medium">{endTime}</span>
+          </div>
+        </div>
+
+        <div className="flex items-center gap-2 flex-wrap">
+          <StatusBadge status={status} />
           {isUrgent && (
-            <div className="flex items-center space-x-1 bg-white/10 px-2 py-0.5 rounded-full">
+            <div className="flex items-center space-x-2 bg-white/20 px-3 py-1.5 rounded-full shadow-sm backdrop-blur-sm">
               <AlertCircle className="h-4 w-4" />
-              <span className="text-sm">Urgent</span>
+              <span className="text-sm font-medium">Urgent</span>
             </div>
           )}
-        </div>
-        <div className="flex items-center space-x-2">
-          <Clock className="h-4 w-4" />
-          <span className="font-medium">{startTime}</span>
-          <span className="text-white/60">→</span>
-          <span className="font-medium">{endTime}</span>
         </div>
       </div>
 
@@ -130,20 +138,6 @@ ${newBarcode ? `\nNouveau code-barre: ${newBarcode}` : ''}
             <span className="text-white font-medium">{ritm}</span>
           </div>
           <div className="flex items-center space-x-2">
-            <button
-              onClick={handleCopyRitm}
-              className="flex items-center space-x-1 text-violet-400 hover:text-violet-300 transition-colors duration-200"
-              title="Copier le RITM"
-            >
-              {isCopied ? (
-                <>
-                  <Check className="h-4 w-4" />
-                  <span className="text-sm">Copié!</span>
-                </>
-              ) : (
-                <Copy className="h-4 w-4" />
-              )}
-            </button>
             <button
               onClick={handleShare}
               className="text-violet-400 hover:text-violet-300 transition-colors duration-200"
@@ -221,48 +215,51 @@ ${newBarcode ? `\nNouveau code-barre: ${newBarcode}` : ''}
         <div className="mt-4 pt-4 border-t border-white/5">
           <div className="flex items-center justify-between mb-2">
             <h4 className="text-sm font-medium text-white">Notes :</h4>
-            {appointment['JUSTIFICATION']?.length > 100 && (
-              <button
-                onClick={() => setIsExpanded(!isExpanded)}
-                className="flex items-center text-violet-400 text-sm hover:text-violet-300"
-              >
-                {isExpanded ? (
-                  <>
-                    <ChevronUp className="h-4 w-4 mr-1" />
-                    <span className="hidden sm:inline">Voir moins</span>
-                  </>
-                ) : (
-                  <>
-                    <ChevronDown className="h-4 w-4 mr-1" />
-                    <span className="hidden sm:inline">Voir plus</span>
-                  </>
-                )}
-              </button>
-            )}
+            <button
+              onClick={() => setIsExpanded(!isExpanded)}
+              className="flex items-center text-violet-400 text-sm hover:text-violet-300"
+            >
+              {isExpanded ? (
+                <>
+                  <ChevronUp className="h-4 w-4 mr-1" />
+                  <span className="hidden sm:inline">Voir moins</span>
+                </>
+              ) : (
+                <>
+                  <ChevronDown className="h-4 w-4 mr-1" />
+                  <span className="hidden sm:inline">Voir plus</span>
+                </>
+              )}
+            </button>
           </div>
           <p className={`text-slate-300 text-sm ${isExpanded ? '' : 'line-clamp-3'}`}>
             {appointment['JUSTIFICATION']}
           </p>
         </div>
 
-        <div className="flex gap-2">
+        <div className="grid grid-cols-2 gap-2 mt-4">
           <button
             onClick={handleCopyRitm}
-            className="flex-1 flex items-center justify-center px-4 py-2 bg-violet-600 hover:bg-violet-500 text-white rounded-lg transition-colors duration-200 gap-2"
+            className="flex items-center justify-center space-x-2 px-4 py-2 bg-slate-700/50 hover:bg-slate-700 text-white rounded-lg transition-colors"
           >
-            <Copy className="h-4 w-4" />
-            <span>Copier le RITM</span>
-            {isCopied && (
-              <span className="text-sm bg-white/10 px-2 py-0.5 rounded-full">
-                Copié !
-              </span>
+            {isCopied ? (
+              <>
+                <Check className="h-4 w-4" />
+                <span>RITM copié!</span>
+              </>
+            ) : (
+              <>
+                <Copy className="h-4 w-4" />
+                <span>Copier le RITM</span>
+              </>
             )}
           </button>
+
           <a
             href={`https://etrace.cristalcloud.com/Pilotage-10/11-livraison.php?ritm=${ritm}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex-1 flex items-center justify-center px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg transition-colors duration-200 gap-2"
+            className="flex items-center justify-center space-x-2 px-4 py-2 bg-violet-600 hover:bg-violet-500 text-white rounded-lg transition-colors"
           >
             <ExternalLink className="h-4 w-4" />
             <span>Ouvrir eTRACE</span>
