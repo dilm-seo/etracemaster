@@ -86,3 +86,7 @@
     animation: fadeColors 16s infinite;
     transition: background-color 4s ease-in-out;
 }
+
+.backdrop-blur-xl {
+    background:#100323;
+}
